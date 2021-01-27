@@ -1,2 +1,10 @@
-const token = localStorage.getItem("token");
-export const user = jwt.verify(token, "jwtPrivateKey");
+import jwtDecode from "jwt-decode";
+
+export default function getCurrentUser() {
+  try {
+    const jwt = localStorage.getItem("token");
+    return jwtDecode(jwt);
+  } catch (ex) {
+    return null;
+  }
+}

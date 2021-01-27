@@ -39,7 +39,6 @@ jobPostSchema.methods.generateAuthToken = function () {
 const JobPost = mongoose.model("JobPost", jobPostSchema);
 
 function validateJobPost(job) {
-  console.log(job);
   const schema = {
     title: Joi.string().min(5).max(50).required(),
     jobtype: Joi.string().required(),

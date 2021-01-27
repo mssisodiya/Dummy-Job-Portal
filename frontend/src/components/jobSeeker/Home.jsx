@@ -1,61 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getEmployer } from "../../actions/employer";
+import jwtDecode from "jwt-decode";
+import { getJobseeker } from "../../actions/jobSeeker";
+import { getAllJob } from "../../actions/jobPost";
+import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { deleteJob } from "../../actions/jobPost";
-import getCurrentUser from "../auth";
 
-function EHome() {
+function JHome() {
   const dispatch = useDispatch();
   const [user, setUser] = useState({
-    employer: [],
+    jobSeeker: [],
   });
   const [jobPost, setJob] = useState({
     jobPost: [],
   });
 
   useEffect(() => {
-    const user = getCurrentUser();
+    const jwt = localStorage.getItem("token");
+    const user = jwtDecode(jwt);
     localStorage.setItem("user", JSON.stringify(user));
-    dispatch(getEmployer(user._id)).then((res) =>
-      setUser(res.employer[0], setJob(res.jobs))
-    );
+
+    dispatch(getJobseeker(user._id)).then((res) => setUser(res[0]));
+    dispatch(getAllJob()).then((res) => setJob(res));
   }, [dispatch]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteJob(id));
-    dispatch(getEmployer(user._id)).then((res) => setJob(res.jobs));
-  };
+  // const handleDelete = (id) => {
+  //   dispatch(deleteJob(id)).then((res) => console.log("res", res));
+  //   dispatch(getEmployer(user._id)).then((res) => setJob(res.jobs));
+  // };
   return (
     <div>
       <section className="py-5 text-center container">
-        <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-          <NavLink
-            className="btn btn-primary me-md-2"
-            to={`/new/jobpost/${user._id}`}
-          >
-            Post a Job
-          </NavLink>
-        </div>
-        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-          <NavLink
-            className="btn btn-primary me-md-2"
-            to={`/applications/${user._id}`}
-          >
-            Applications Recieved
-          </NavLink>
-        </div>
-
-        <div className="row py-lg-5">
+        <div>
+          <div className="d-grid gap-2 d-md-flex justify-content-md-start">
+            <NavLink
+              className="btn btn-primary me-md-2"
+              to={`/appliedJobs/${user._id}`}
+            >
+              Applied By you
+            </NavLink>
+          </div>
           <div className="col-lg-6 col-md-8 mx-auto">
             <h1 className="fw-light">Welcome {user.name}</h1>
           </div>
         </div>
-        {jobPost ? (
-          <h4 className="fw-light">Jobs posted by you </h4>
-        ) : (
-          <h4 className="fw-light">No Jobs posted by you </h4>
-        )}
+        <h4 className="fw-light">All Jobs</h4>
       </section>
 
       <div className="album py-5 bg-light">
@@ -71,7 +60,7 @@ function EHome() {
                         height="225"
                         xmlns="http://www.w3.org/2000/svg"
                         role="img"
-                        aria-label="Placeholder: Thumbnail"
+                        aria-label="Placeholder: Logo"
                         preserveAspectRatio="xMidYMid slice"
                         focusable="false"
                       >
@@ -84,21 +73,27 @@ function EHome() {
 
                       <div className="card-body">
                         <p className="card-text">{job.title}</p>
+                        <ul className="list-group list-group-flush">
+                          <li className="list-group-item">
+                            Salary - {job.salary} lpa
+                          </li>
+                          <li className="list-group-item">
+                            Qualification Required - {job.qualification}
+                          </li>
+                          <li className="list-group-item">
+                            Location - {job.location}
+                          </li>
+                        </ul>
                         <div className="d-flex justify-content-between align-items-center">
-                          <div className="btn-group">
-                            <NavLink
-                              to={`/editjob/${job._id}`}
+                          <div className="btn-group" employer={job.employer}>
+                            <Link
+                              to={`apply/${job._id}`}
                               className="btn btn-sm btn-primary"
                             >
-                              Edit
-                            </NavLink>
+                              Apply
+                            </Link>
+                            <div className="align-left"></div>
                           </div>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleDelete(job)}
-                          >
-                            Delete
-                          </button>
                         </div>
                       </div>
                     </div>
@@ -112,4 +107,4 @@ function EHome() {
   );
 }
 
-export default EHome;
+export default JHome;

@@ -5,9 +5,10 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 
 const { JobSeeker, validate } = require("../models/jobseeker");
+const { JobApplied } = require("../models/appliedjob");
+const { JobPost } = require("../models/jobPost");
 
 router.post("/", async (req, res) => {
-  console.log("req", req);
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details.message);
 
@@ -34,6 +35,36 @@ router.post("/", async (req, res) => {
     .header("x-auth-token", token)
     .header("access-control-expose-headers", "x-auth-token")
     .send(_.pick(jobseeker, ["_id", "name", "email", "role"]));
+});
+
+router.get("/:id", async (req, res) => {
+  const jobseeker = await JobSeeker.find({ _id: req.params.id });
+  // const jobs = await JobPost.find({ employer: req.params.id });
+  res.send(jobseeker);
+});
+
+//aplplying
+router.post("/apply/:id", async (req, res) => {
+  // const job = await JobPost.find({ _id: req.params.id });
+
+  jobApplication = new JobApplied({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    qualification: req.body.qualification,
+    jobId: req.params.id,
+    employerId: req.body.employerId,
+    jobseekerId: req.body.jobseekerId,
+  });
+  await jobApplication.save();
+
+  res.send(jobApplication);
+});
+
+router.get("/getApliedjobs/:id", async (req, res) => {
+  const jobseeker = await JobApplied.find({ jobseekerId: req.params.id });
+  const job = await JobPost.findById(jobseeker.jobId);
+  res.send({ jobseeker, job });
 });
 
 module.exports = router;

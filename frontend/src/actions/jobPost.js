@@ -1,23 +1,24 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+import { apiUrl } from "./../config.json";
 
 export const addJob = (job) => {
   return async (dispatch) => {
     const { data: newjob } = await axios.post(
-      `http://localhost:8000/api/jobpost/${job.id}`,
+      `${apiUrl}jobpost/${job.id}`,
       job
     );
     dispatch({
       type: "ADD_JOB",
       payload: newjob,
     });
+    toast.success("Posted the job Successfully");
   };
 };
 
 export const getAJob = (id) => {
   return async function (dispatch) {
-    const { data: jobpost } = await axios.get(
-      `http://localhost:8000/api/jobpost/job/${id}`
-    );
+    const { data: jobpost } = await axios.get(`${apiUrl}jobpost/job/${id}`);
     dispatch({
       type: "GET_A_JOB",
       payload: jobpost,
@@ -29,11 +30,21 @@ export const getAJob = (id) => {
 //get all jobPosts of a particular employer
 export const getJob = (id) => {
   return async function (dispatch) {
-    const { data: jobpost } = await axios.get(
-      `http://localhost:8000/api/jobpost/${id}`
-    );
+    const { data: jobpost } = await axios.get(`${apiUrl}jobpost/${id}`);
     dispatch({
       type: "GET_JOB",
+      payload: jobpost,
+    });
+    return jobpost;
+  };
+};
+
+// get all active jobs
+export const getAllJob = () => {
+  return async function (dispatch) {
+    const { data: jobpost } = await axios.get(`${apiUrl}jobpost`);
+    dispatch({
+      type: "GET_ALL_JOB",
       payload: jobpost,
     });
     return jobpost;
@@ -44,13 +55,27 @@ export const editJob = (job) => {
   return async function (dispatch) {
     console.log("job", job);
     const { data: jobpost } = await axios.put(
-      `http://localhost:8000/api/jobpost/${job._id}`,
+      `${apiUrl}jobpost/${job._id}`,
       job
     );
     dispatch({
       type: "EDIT_JOB",
       payload: jobpost,
     });
+    toast.success("Modified succesfully");
+    return jobpost;
+  };
+};
+
+export const deleteJob = (job) => {
+  return async function (dispatch) {
+    const { data: jobpost } = await axios.delete(`${apiUrl}jobpost/${job._id}`);
+    dispatch({
+      type: "DELETE_JOB",
+      payload: jobpost,
+    });
+    toast.success("Deleted succesfully");
+
     return jobpost;
   };
 };

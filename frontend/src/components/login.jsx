@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import { login } from "../actions/login";
+import getCurrentUser from "./auth";
 
 function Login(props) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [user, setUser] = useState({
     email: "",
@@ -16,8 +20,14 @@ function Login(props) {
     setUser(data);
   }
   const handleSubmit = () => {
-    dispatch(login(user)).then((res) => localStorage.setItem("token", res));
-    props.history.push("/ehome");
+    dispatch(login(user))
+      .then((res) => {
+        localStorage.setItem("token", res.token);
+        res.user.role === 1 ? history.push("/ehome") : history.push("/jhome");
+      })
+      .catch((e) => {
+        toast.error("Email or password are invalid");
+      });
   };
 
   return (

@@ -7,6 +7,8 @@ const jobPost = require("./routes/jobPost");
 const auth = require("./routes/auth");
 const config = require("config");
 const cors = require("cors");
+const helmet = require("helmet");
+const compression = require("compression");
 
 if (!config.get("jwtPrivatekey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
@@ -28,6 +30,7 @@ app.use("/api/jobseeker", jobSeeker);
 app.use("/api/employer", employer);
 app.use("/api/jobpost", jobPost);
 app.use("/api/auth", auth);
-
+app.use(helmet());
+app.use(compression());
 const port = 8000;
 app.listen(port, () => console.log(`Listening on ${port}`));

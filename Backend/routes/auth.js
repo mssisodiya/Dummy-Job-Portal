@@ -13,7 +13,6 @@ const { JobSeeker } = require("../models/jobseeker");
 router.post("/login", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details.message);
-  console.log("hitted2");
   let user =
     (await Employer.findOne({ email: req.body.email })) ||
     (await JobSeeker.findOne({ email: req.body.email }));
@@ -24,7 +23,7 @@ router.post("/login", async (req, res) => {
 
   const token = user.generateAuthToken();
 
-  res.send(token);
+  res.send({ token, user });
 });
 
 function validate(req) {

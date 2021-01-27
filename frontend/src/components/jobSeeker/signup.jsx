@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { addEmployer } from "../../actions/employer";
+import { addJobSeeker } from "../../actions/jobSeeker";
 
 function Signup(props) {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ function Signup(props) {
   }
   const handleSubmit = () => {
     newUser.role = 2;
-    dispatch(addEmployer(newUser));
+    dispatch(addJobSeeker(newUser));
     props.history.push("/login");
   };
 
@@ -29,7 +29,7 @@ function Signup(props) {
     <div id="registerform">
       <h3>Sign Up</h3>
       <div className="form-group">
-        <label>FullName</label>
+        <label>Full Name</label>
         <input
           type="text"
           className="form-control"

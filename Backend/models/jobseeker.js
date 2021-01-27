@@ -41,7 +41,6 @@ jobSeekerSchema.methods.generateAuthToken = function () {
 const JobSeeker = mongoose.model("JobSeeker", jobSeekerSchema);
 
 function validateJobseeker(jobseeker) {
-  console.log(jobseeker);
   const schema = {
     name: Joi.string().min(5).max(50).required(),
     qualification: Joi.string().required(),

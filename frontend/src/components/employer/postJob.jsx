@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { addJob } from "../../actions/jobPost";
 
 function JobPost(props) {
-  console.log("props", props);
   const dispatch = useDispatch();
   const [newJob, setJob] = useState({
     title: "",
@@ -19,8 +19,10 @@ function JobPost(props) {
     data[input.name] = input.value;
     setJob(data);
   }
-  const handleSubmit = () => {
-    dispatch(addJob(newJob));
+  const handleSubmit = async () => {
+    const res = await dispatch(addJob(newJob)).catch((e) => {
+      toast.error("Failed: Fill all fields");
+    });
     props.history.push("/ehome");
   };
 
@@ -48,8 +50,8 @@ function JobPost(props) {
           onChange={handleChange}
         >
           <option selected>Choose...</option>
-          <option value="1">Part Time</option>
-          <option value="2">Full Time</option>
+          <option value="Part Time">Part Time</option>
+          <option value="Full Time">Full Time</option>
         </select>
       </div>
       <div className="form-group">
@@ -61,8 +63,8 @@ function JobPost(props) {
           onChange={handleChange}
         >
           <option selected>Choose...</option>
-          <option value="1">BE/BTECH</option>
-          <option value="2">MCA</option>
+          <option value="BE/BTECH">BE/BTECH</option>
+          <option value="MCA">MCA</option>
         </select>
       </div>
       <div className="form-group">
