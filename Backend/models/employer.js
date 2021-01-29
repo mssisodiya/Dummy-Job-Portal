@@ -6,21 +6,16 @@ const employerSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 50,
   },
   email: {
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 50,
+
     unique: true,
   },
   address: {
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 100,
   },
   phone: {
     type: String,

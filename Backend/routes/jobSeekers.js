@@ -62,9 +62,14 @@ router.post("/apply/:id", async (req, res) => {
 });
 
 router.get("/getApliedjobs/:id", async (req, res) => {
-  const jobseeker = await JobApplied.find({ jobseekerId: req.params.id });
-  const job = await JobPost.findById(jobseeker.jobId);
-  res.send({ jobseeker, job });
+  const appliedJobs = await JobApplied.find({ jobseekerId: req.params.id });
+  // const jobpost = await JobPost.findById(jobseeker.jobId);
+  res.send(appliedJobs);
 });
 
+router.delete("/:id", async (req, res) => {
+  const appliedJobs = await JobApplied.findByIdAndRemove(req.params.id);
+  // const jobpost = await JobPost.findById(jobseeker.jobId);
+  res.send(appliedJobs);
+});
 module.exports = router;
