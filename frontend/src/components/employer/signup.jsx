@@ -1,103 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { addEmployer } from "../../actions/employer";
+import { getAnApplication } from "../../actions/employer";
 
-function SignUpE(props) {
+function ViewAppl(props) {
+  const [appl, setAppl] = useState([]);
+  const [jobPost, setJobPost] = useState([]);
   const dispatch = useDispatch();
-  const [newCompany, setCompany] = useState({
-    name: "",
-    email: "",
-    address: "",
-    phone: "",
-    password: "",
-    role: "",
-  });
+  const id = props.match.params.id;
 
-  function handleChange({ currentTarget: input }) {
-    const data = { ...newCompany };
-    data[input.name] = input.value;
-    setCompany(data);
-  }
-  const handleSubmit = () => {
-    newCompany.role = 1;
-    dispatch(addEmployer(newCompany));
-    props.history.push("/login");
-  };
+  useEffect(() => {
+    dispatch(getAnApplication(id)).then((res) =>
+      setAppl(res.application, setJobPost(res.jobPost))
+    );
+  }, [dispatch, id]);
 
   return (
-    <div id="registerform">
-      <h3>Register Your Company</h3>
-      <div className="form-group">
-        <label>Comapny Name</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Enter full Name"
-          name="name"
-          value={newCompany.name}
-          onChange={handleChange}
-        />
+    <div className="mb-3">
+      <div className="card text-white bg-dark mb-3">
+        <div className="card-header">Applicant details</div>
+        <div className="card-body">
+          <h4 className="card-title">Name - {appl.name}</h4>
+          <h5>Email - {appl.email}</h5>
+          <h5>Phone - {appl.phone}</h5>
+          <h5>Qualification - {appl.qualification}</h5>
+          <h5>Post applied for - {jobPost.title}</h5>
+        </div>
       </div>
-
-      <div className="form-group">
-        <label>Company Email address</label>
-        <input
-          type="email"
-          className="form-control"
-          placeholder="Enter email"
-          name="email"
-          value={newCompany.email}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Phone</label>
-        <input
-          type="text"
-          className="form-control"
-          id="phone"
-          name="phone"
-          value={newCompany.phone}
-          placeholder="Enter phone"
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Company Address</label>
-        <input
-          type="text"
-          className="form-control"
-          id="address"
-          name="address"
-          value={newCompany.address}
-          placeholder="Enter address"
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Password</label>
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Enter password"
-          name="password"
-          value={newCompany.password}
-          onChange={handleChange}
-        />
-      </div>
-
-      <button
-        onClick={() => handleSubmit()}
-        className="btn btn-primary btn-block"
-      >
-        Sign Up
-      </button>
-      <p className="forgot-password text-right">
-        Already registered <Link to="/login">Log in?</Link>
-      </p>
     </div>
   );
 }
-
-export default SignUpE;
+export default ViewAppl;

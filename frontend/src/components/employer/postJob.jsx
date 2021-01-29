@@ -49,7 +49,7 @@ function JobPost(props) {
           name="jobtype"
           onChange={handleChange}
         >
-          <option selected>Choose...</option>
+          <option>Choose...</option>
           <option value="Part Time">Part Time</option>
           <option value="Full Time">Full Time</option>
         </select>
@@ -62,7 +62,7 @@ function JobPost(props) {
           name="qualification"
           onChange={handleChange}
         >
-          <option selected>Choose...</option>
+          <option>Choose...</option>
           <option value="BE/BTECH">BE/BTECH</option>
           <option value="MCA">MCA</option>
         </select>

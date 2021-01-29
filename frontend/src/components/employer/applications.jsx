@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import getCurrentUser from "../auth";
-import { getAppliedJobs } from "../../actions/jobSeeker";
+import { getApplications } from "../../actions/employer";
 
 function Applications() {
   const dispatch = useDispatch();
@@ -10,9 +10,7 @@ function Applications() {
 
   useEffect(() => {
     const user = getCurrentUser();
-    dispatch(getAppliedJobs(user._id)).then((res) =>
-      setApplications(res.jobseeker)
-    );
+    dispatch(getApplications(user._id)).then((res) => setApplications(res));
   }, [dispatch]);
 
   return (

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getEmployer } from "../../actions/employer";
 import { NavLink } from "react-router-dom";
-import { deleteJob } from "../../actions/jobPost";
+import { deleteJob, getJob } from "../../actions/jobPost";
 import getCurrentUser from "../auth";
 
 function EHome() {
@@ -10,21 +10,18 @@ function EHome() {
   const [user, setUser] = useState({
     employer: [],
   });
-  const [jobPost, setJob] = useState({
-    jobPost: [],
-  });
+
+  const jobPost = useSelector((state) => state.jobpost);
 
   useEffect(() => {
     const user = getCurrentUser();
     localStorage.setItem("user", JSON.stringify(user));
-    dispatch(getEmployer(user._id)).then((res) =>
-      setUser(res.employer[0], setJob(res.jobs))
-    );
+    dispatch(getEmployer(user._id)).then((res) => setUser(res.employer[0]));
+    dispatch(getJob(user._id));
   }, [dispatch]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteJob(id));
-    dispatch(getEmployer(user._id)).then((res) => setJob(res.jobs));
+  const handleDelete = async (job) => {
+    dispatch(deleteJob(job._id));
   };
   return (
     <div>
@@ -61,7 +58,7 @@ function EHome() {
       <div className="album py-5 bg-light">
         <div className="container">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {jobPost.length > 0
+            {jobPost
               ? jobPost.map((job) => (
                   <div className="col" key={job._id}>
                     <div className="card shadow-sm">

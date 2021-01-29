@@ -22,8 +22,7 @@ function EditJob(props) {
     setJob(data);
   }
   const handleSubmit = async () => {
-    dispatch(editJob(newJob));
-    await props.history.push("/ehome");
+    dispatch(editJob(newJob)).then((res) => props.history.push("/ehome"));
   };
 
   return (
@@ -50,7 +49,7 @@ function EditJob(props) {
           onChange={handleChange}
           value={newJob.jobtype}
         >
-          <option selected>Choose...</option>
+          <option>Choose...</option>
           <option value="Part Time">Part Time</option>
           <option value="Full Time">Full Time</option>
         </select>
@@ -64,7 +63,7 @@ function EditJob(props) {
           onChange={handleChange}
           value={newJob.qualification}
         >
-          <option selected>Choose...</option>
+          <option>Choose...</option>
           <option value="BE/BTECH">BE/BTECH</option>
           <option value="MCA">MCA</option>
         </select>
