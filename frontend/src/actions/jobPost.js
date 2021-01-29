@@ -63,19 +63,16 @@ export const editJob = (job) => {
       payload: jobpost,
     });
     toast.success("Modified succesfully");
-    return jobpost;
   };
 };
 
 export const deleteJob = (job) => {
+  console.log(job);
   return async function (dispatch) {
-    const { data: jobpost } = await axios.delete(`${apiUrl}jobpost/${job._id}`);
+    const { data: jobpost } = await axios.delete(`${apiUrl}jobpost/${job}`);
     dispatch({
-      type: "DELETE_JOB",
+      type: "DELETE_JOBBBBB",
       payload: jobpost,
     });
-    toast.success("Deleted succesfully");
-
-    return jobpost;
   };
 };

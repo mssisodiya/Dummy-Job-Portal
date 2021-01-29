@@ -23,12 +23,14 @@ export const getEmployer = (id) => {
       type: "GET_EMPLOYER",
       payload: employer,
     });
+
     return employer;
   };
 };
 
 export const getApplications = (id) => {
   return async function (dispatch) {
+    console.log("id", id);
     const { data: applications } = await axios.get(
       `${apiUrl}employer/applications/${id}`
     );

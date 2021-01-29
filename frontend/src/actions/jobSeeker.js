@@ -58,12 +58,24 @@ export const applyJob = (job) => {
 
 export const getAppliedJobs = (id) => {
   return async function (dispatch) {
-    console.log("jobId", id);
     const { data: appliedJobs } = await axios.get(
       `${apiUrl}jobseeker/getApliedjobs/${id}`
     );
     dispatch({
       type: "GET_APPLIED_JOB",
+      payload: appliedJobs,
+    });
+    return appliedJobs;
+  };
+};
+
+export const withdrawJob = (id) => {
+  return async function (dispatch) {
+    const { data: appliedJobs } = await axios.delete(
+      `${apiUrl}jobseeker/${id}`
+    );
+    dispatch({
+      type: "DELETE_APPLIED_JOB",
       payload: appliedJobs,
     });
     return appliedJobs;
