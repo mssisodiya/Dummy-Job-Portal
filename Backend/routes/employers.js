@@ -3,22 +3,44 @@ const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+var multer = require("multer");
 
 const { Employer, validate } = require("../models/employer");
 const { JobPost } = require("../models/jobPost");
 const { JobApplied } = require("../models/appliedjob");
 
-router.post("/", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details.message);
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+var upload = multer({ storage: storage });
+
+router.post("/", upload.single("logo"), async (req, res) => {
+  console.log("req", req.body);
+  console.log("req", req.file);
+  const url = req.protocol + "://" + req.get("host");
+  console.log("url", url);
+  // const { error } = validate(req.body);
+  // if (error) return res.status(400).send(error.details.message);
 
   let checkUser = await Employer.findOne({ email: req.body.email });
   if (checkUser)
     return res.status(400).send("User already registered with this email");
 
-  employer = new Employer(
-    _.pick(req.body, ["name", "email", "phone", "password", "role", "address"])
-  );
+  employer = new Employer({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    password: req.body.password,
+    role: req.body.role,
+    logo: url + "/uploads/" + req.file.filename,
+    address: req.body.address,
+  });
+
   const salt = await bcrypt.genSalt(10);
   employer.password = await bcrypt.hash(employer.password, salt);
   await employer.save();
@@ -56,7 +78,7 @@ router.get("/single_application/:id", async (req, res) => {
   const application = await JobApplied.findById(req.params.id).populate(
     "employer"
   );
-  const jobPost = await JobPost.findById(application.jobId);
+  const jobPost = await JobPost.find({ _id: application.jobId });
   res.send({ application, jobPost });
 });
 

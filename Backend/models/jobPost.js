@@ -25,8 +25,9 @@ const jobPostSchema = new mongoose.Schema({
   },
 
   employer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Employer",
+    id: { type: String },
+    company: { type: String },
+    logo: { type: String },
   },
 });
 

@@ -10,7 +10,7 @@ function ViewAppl(props) {
 
   useEffect(() => {
     dispatch(getAnApplication(id)).then((res) =>
-      setAppl(res.application, setJobPost(res.jobPost))
+      setAppl(res.application, setJobPost(res.jobPost[0]))
     );
   }, [dispatch, id]);
 

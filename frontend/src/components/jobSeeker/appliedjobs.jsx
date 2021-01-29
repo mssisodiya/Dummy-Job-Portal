@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAppliedJobs } from "../../actions/jobSeeker";
 import { withdrawJob } from "../../actions/jobSeeker";
 import getCurrentUser from "../auth";
 
 function AppliedJobs() {
   const dispatch = useDispatch();
-  const [applications, setApplications] = useState([]);
-  const [jobpost, setJob] = useState([]);
+  // const [applications, setApplications] = useState([]);
+  const applications = useSelector((state) => state.jobseeker);
 
   useEffect(() => {
     const user = getCurrentUser();
-    dispatch(getAppliedJobs(user._id)).then((res) => setApplications(res));
-  }, [dispatch, setApplications]);
+    dispatch(getAppliedJobs(user._id));
+  }, [dispatch]);
 
   return (
     <div>

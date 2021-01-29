@@ -70,6 +70,7 @@ export const getAppliedJobs = (id) => {
 };
 
 export const withdrawJob = (id) => {
+  console.log("id", id);
   return async function (dispatch) {
     const { data: appliedJobs } = await axios.delete(
       `${apiUrl}jobseeker/${id}`

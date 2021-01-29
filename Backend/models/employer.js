@@ -21,6 +21,9 @@ const employerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  logo: {
+    type: String,
+  },
   password: {
     type: String,
     required: true,
@@ -40,12 +43,13 @@ const Employer = mongoose.model("Emloyer", employerSchema);
 
 function validateEmployer(employer) {
   const schema = {
-    name: Joi.string().min(5).max(50).required(),
-    address: Joi.string().min(5).max(100).required(),
+    name: Joi.string().required(),
+    address: Joi.string().required(),
     email: Joi.string().required().email(),
     phone: Joi.string().required(),
     password: Joi.string().min(5).max(255).required(),
     role: Joi.number(),
+    logo: Joi.string(),
   };
 
   return Joi.validate(employer, schema);

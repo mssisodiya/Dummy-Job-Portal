@@ -17,14 +17,18 @@ router.post("/:id", async (req, res) => {
       qualification: req.body.qualification,
       salary: req.body.salary,
       location: req.body.location,
-      employer: employer._id,
+      employer: {
+        id: employer._id,
+        company: employer.name,
+        logo: employer.logo,
+      },
     });
 
     await jobPost.save();
 
     res.send(jobPost);
   } catch (e) {
-    res.statusMessage(e);
+    res.status(e);
   }
 });
 
@@ -41,7 +45,7 @@ router.get("/job/:id", async (req, res) => {
 
 //get all job of an employter
 router.get("/:id", async (req, res) => {
-  const jobPost = await JobPost.find({ employer: req.params.id });
+  const jobPost = await JobPost.find({ "employer.id": req.params.id });
   res.send(jobPost);
 });
 

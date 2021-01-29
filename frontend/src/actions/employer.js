@@ -2,11 +2,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { apiUrl } from "./../config.json";
 
-export const addEmployer = (newEmployer) => {
+export const addEmployer = (newEmployer, file) => {
   return async (dispatch) => {
     const { data: employer } = await axios.post(
       `${apiUrl}employer`,
-      newEmployer
+      newEmployer,
+      file
     );
     dispatch({
       type: "ADD_EMPLOYER",
@@ -44,13 +45,13 @@ export const getApplications = (id) => {
 
 export const getAnApplication = (id) => {
   return async function (dispatch) {
-    const { data: application } = await axios.get(
+    const { data: appl } = await axios.get(
       `${apiUrl}employer/single_application/${id}`
     );
     dispatch({
       type: "GET_AN_APPLICATION",
-      payload: application,
+      payload: appl,
     });
-    return application;
+    return appl;
   };
 };

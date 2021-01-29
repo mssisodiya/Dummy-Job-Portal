@@ -1,6 +1,6 @@
 const initState = { jobSeeker: [] };
 
-export const jobSeekerReducer = (state = initState.jobSeeker, action) => {
+export const jobSeekerReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_JOBSEEKER":
       return [...state, action.payload];
@@ -13,8 +13,7 @@ export const jobSeekerReducer = (state = initState.jobSeeker, action) => {
     case "GET_APPLIED_JOB":
       return action.payload;
     case "DELETE_APPLIED_JOB":
-      return action.payload;
-
+      return state.filter((job) => job._id !== action.payload._id);
     default:
       return state;
   }

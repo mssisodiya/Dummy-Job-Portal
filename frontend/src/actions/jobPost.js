@@ -53,7 +53,6 @@ export const getAllJob = () => {
 
 export const editJob = (job) => {
   return async function (dispatch) {
-    console.log("job", job);
     const { data: jobpost } = await axios.put(
       `${apiUrl}jobpost/${job._id}`,
       job

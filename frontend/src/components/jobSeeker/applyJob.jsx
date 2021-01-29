@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAJob } from "../../actions/jobPost";
 import { applyJob, getJobseeker } from "../../actions/jobSeeker";
 
 function ApplyJob(props) {
-  console.log("props", props.employer);
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
   const [employer, setEmployer] = useState([]);
+
+  const js = useSelector((state) => state.jobseeker);
+
   const [newJob, setJob] = useState({
     name: "",
     email: "",
@@ -21,6 +23,7 @@ function ApplyJob(props) {
   useEffect(() => {
     // dispatch(getJobseeker(user._id)).then((res) => setTemp(res[0]));
     dispatch(getAJob(newJob.jobId)).then((res) => setEmployer(res.employer));
+    dispatch(getJobseeker(user._id));
   }, [dispatch]);
 
   function handleChange({ currentTarget: input }) {
@@ -28,7 +31,6 @@ function ApplyJob(props) {
     data[input.name] = input.value;
     data["employerId"] = employer;
     setJob(data);
-    console.log("final", newJob);
   }
 
   // const uploadResume=(e) => {
@@ -71,6 +73,7 @@ function ApplyJob(props) {
 
   return (
     <div id="registerform">
+      {console.log("job", js)}
       <h3>Apply for job</h3>
       <div className="form-group">
         <label>Full Name</label>
@@ -118,7 +121,7 @@ function ApplyJob(props) {
           onChange={handleChange}
           value={newJob.qualification}
         >
-          <option selected>Choose...</option>
+          <option>Choose...</option>
           <option value="BE/BTECH">BE/BTECH</option>
           <option value="MCA">MCA</option>
         </select>
