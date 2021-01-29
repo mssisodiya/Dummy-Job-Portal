@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login } from "../actions/login";
-import getCurrentUser from "./auth";
 
 function Login(props) {
   const history = useHistory();

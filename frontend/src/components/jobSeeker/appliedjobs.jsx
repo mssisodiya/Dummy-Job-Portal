@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAppliedJobs } from "../../actions/jobSeeker";
+import { withdrawJob } from "../../actions/jobSeeker";
 import getCurrentUser from "../auth";
 
 function AppliedJobs() {
   const dispatch = useDispatch();
   const [applications, setApplications] = useState([]);
+  const [jobpost, setJob] = useState([]);
 
   useEffect(() => {
     const user = getCurrentUser();
-    dispatch(getAppliedJobs(user._id)).then((res) =>
-      setApplications(res.jobseeker)
-    );
-  }, [dispatch]);
+    dispatch(getAppliedJobs(user._id)).then((res) => setApplications(res));
+  }, [dispatch, setApplications]);
 
   return (
     <div>
@@ -20,7 +20,6 @@ function AppliedJobs() {
         <div className="row py-lg-5">
           <div className="col-lg-6 col-md-8 mx-auto"></div>
         </div>
-        {console.log("app", applications)}
         {applications ? (
           <h4 className="fw-light">Jobs Applied By You</h4>
         ) : (
@@ -54,7 +53,10 @@ function AppliedJobs() {
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="btn-group">
-                        <button className="btn btn-sm btn-danger">
+                        <button
+                          onClick={() => dispatch(withdrawJob(appl._id))}
+                          className="btn btn-sm btn-danger"
+                        >
                           withdraw
                         </button>
                       </div>
