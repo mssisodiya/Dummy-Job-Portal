@@ -12,6 +12,9 @@ export const jobSeekerReducer = (state = initState.jobSeeker, action) => {
       return action.payload;
     case "GET_APPLIED_JOB":
       return action.payload;
+    case "DELETE_APPLIED_JOB":
+      return action.payload;
+
     default:
       return state;
   }

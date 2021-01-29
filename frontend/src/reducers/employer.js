@@ -3,6 +3,8 @@ export const employerReducer = (state = [], action) => {
     case "ADD_EMPLOYER":
       return [...state, action.payload];
     case "GET_EMPLOYER":
+      return (state = action.payload);
+    case "GET_APPLICATIONS":
       return action.payload;
     case "GET_AN_APPLICATION":
       return action.payload;
