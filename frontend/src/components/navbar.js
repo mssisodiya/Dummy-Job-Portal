@@ -5,13 +5,12 @@ import { logout } from "../actions/login";
 import getCurrentUser from "./auth";
 
 export default function NavBar(props) {
-  const user = useSelector((state) => state.login);
+  const user = useSelector((state) => state.login.isAuthenticated);
   const dispatch = useDispatch();
 
   function logoutuser() {
     dispatch(logout());
     localStorage.removeItem("token");
-    window.location.replace("/login");
   }
 
   // useEffect(() => {
@@ -34,7 +33,7 @@ export default function NavBar(props) {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
-          {!user.token ? (
+          {!user ? (
             <ul className="nav nav-pills">
               <li className="nav-item dropdown">
                 <span
@@ -63,7 +62,11 @@ export default function NavBar(props) {
               </li>
             </ul>
           ) : (
-            <NavLink to="/" onClick={() => logoutuser()} className="nav-link">
+            <NavLink
+              to="/login"
+              onClick={() => logoutuser()}
+              className="nav-link"
+            >
               Logout
             </NavLink>
           )}

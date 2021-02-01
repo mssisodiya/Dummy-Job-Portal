@@ -1,11 +1,11 @@
-const initState = { user: [] };
+const initState = { user: [], isAuthenticated: false };
 
-export const loginReducer = (state = [], action) => {
+export const loginReducer = (state = initState, action) => {
   switch (action.type) {
     case "LOGIN":
-      return (state = action.payload);
+      return { ...state, data: action.payload, isAuthenticated: true };
     case "LOGOUT":
-      return state;
+      return { ...state, isAuthenticated: false };
     default:
       return state;
   }
