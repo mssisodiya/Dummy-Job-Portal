@@ -13,3 +13,11 @@ export const login = (data) => {
     return user;
   };
 };
+
+export const logout = (data) => {
+  return async (dispatch) => {
+    dispatch({
+      type: "LOGOUT",
+    });
+  };
+};

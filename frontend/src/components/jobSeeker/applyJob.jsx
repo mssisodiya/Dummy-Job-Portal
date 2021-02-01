@@ -29,7 +29,7 @@ function ApplyJob(props) {
   function handleChange({ currentTarget: input }) {
     const data = { ...newJob };
     data[input.name] = input.value;
-    data["employerId"] = employer;
+    data["employerId"] = employer.id;
     setJob(data);
   }
 
@@ -67,13 +67,14 @@ function ApplyJob(props) {
   // }
 
   const handleSubmit = () => {
+    console.log("jobApply", newJob);
+
     dispatch(applyJob(newJob));
     props.history.push("/jhome");
   };
 
   return (
     <div id="registerform">
-      {console.log("job", js)}
       <h3>Apply for job</h3>
       <div className="form-group">
         <label>Full Name</label>

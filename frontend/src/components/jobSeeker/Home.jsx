@@ -53,47 +53,39 @@ function JHome() {
             {jobPost.length > 0
               ? jobPost.map((job) => (
                   <div className="col" key={job._id}>
-                    <div className="card shadow-sm">
-                      <svg
-                        className="bd-placeholder-img card-img-top"
-                        width="100%"
-                        height="225"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-label="Placeholder: Logo"
-                        preserveAspectRatio="xMidYMid slice"
-                        focusable="false"
-                      >
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" />
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                          Logo
-                        </text>
-                      </svg>
+                    <div className="card" style={{ width: "18rem" }}>
+                      <img
+                        src={job.employer.logo}
+                        className="card-img-top"
+                        alt="..."
+                      />
+                    </div>
 
-                      <div className="card-body">
-                        <p className="card-text">{job.title}</p>
-                        <ul className="list-group list-group-flush">
-                          <li className="list-group-item">
-                            Salary - {job.salary} lpa
-                          </li>
-                          <li className="list-group-item">
-                            Qualification Required - {job.qualification}
-                          </li>
-                          <li className="list-group-item">
-                            Location - {job.location}
-                          </li>
-                        </ul>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div className="btn-group" employer={job.employer}>
-                            <Link
-                              to={`apply/${job._id}`}
-                              className="btn btn-sm btn-primary"
-                            >
-                              Apply
-                            </Link>
-                            <div className="align-left"></div>
-                          </div>
+                    <div className="card-body">
+                      <p className="card-text">{job.title}</p>
+                      <ul className="list-group list-group-flush">
+                        <li className="list-group-item">
+                          company - {job.employer.company}
+                        </li>
+                        <li className="list-group-item">
+                          Salary - {job.salary} lpa
+                        </li>
+                        <li className="list-group-item">
+                          Qualification Required - {job.qualification}
+                        </li>
+                        <li className="list-group-item">
+                          Location - {job.location}
+                        </li>
+                      </ul>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="btn-group" employer={job.employer}>
+                          <Link
+                            to={`apply/${job._id}`}
+                            className="btn btn-sm btn-primary"
+                          >
+                            Apply
+                          </Link>
+                          <div className="align-left"></div>
                         </div>
                       </div>
                     </div>
