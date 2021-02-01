@@ -1,7 +1,24 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { logout } from "../actions/login";
+import getCurrentUser from "./auth";
 
-export default function NavBar() {
-  const token = localStorage.getItem("token");
+export default function NavBar(props) {
+  const user = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+
+  function logoutuser() {
+    dispatch(logout());
+    localStorage.removeItem("token");
+    window.location.replace("/login");
+  }
+
+  // useEffect(() => {
+  //   // token = localStorage.getItem("token");
+  //   setUser(getCurrentUser());
+  // }, [getCurrentUser]);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <NavLink className="navbar-brand" to="/">
@@ -20,7 +37,7 @@ export default function NavBar() {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
-          {!token ? (
+          {!user.token ? (
             <ul className="nav nav-pills">
               <li className="nav-item dropdown">
                 <span
@@ -42,13 +59,17 @@ export default function NavBar() {
                   </NavLink>
                 </div>
               </li>
+              <li>
+                <NavLink className="nav-link" to="/login">
+                  Login
+                </NavLink>
+              </li>
             </ul>
           ) : (
-            ""
+            <NavLink to="/" onClick={() => logoutuser()} className="nav-link">
+              Logout
+            </NavLink>
           )}
-          <NavLink className="nav-link" to="/login">
-            Login
-          </NavLink>
         </div>
       </div>
     </nav>
