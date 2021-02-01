@@ -21,9 +21,6 @@ export default function NavBar(props) {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <NavLink className="navbar-brand" to="/">
-        Jobs
-      </NavLink>
       <button
         className="navbar-toggler"
         type="button"
