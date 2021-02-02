@@ -1,7 +1,8 @@
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import Login from "./components/login";
+import ELogin from "./components/employer/Login";
+import JLogin from "./components/jobSeeker/Login";
 import NavBar from "./components/navbar";
 import Signup from "./components/jobSeeker/signup";
 import EHome from "././components/employer/Home";
@@ -30,17 +31,18 @@ function App() {
           <Route path="/home" component={Home} />
           <Route exact path="/register/jobseeker" component={Signup} />
           <Route path="/register/employer" component={SignUpE} />
-          <Route path="/login" component={Login} />
 
           <EmpRoute path="/new/jobpost/:id" component={JobPost} />
           <EmpRoute path="/editjob/:id" component={EditJob} />
           <EmpRoute path="/ehome" component={EHome} />
           <EmpRoute path="/applications/:id" component={Applications} />
           <EmpRoute path="/viewapplication/:id" component={ViewAppl} />
+          <Route path="/Elogin" component={ELogin} />
 
           <JobSRoute path="/jhome" component={JHome} />
           <JobSRoute path="/apply/:id" component={ApplyJob} />
           <JobSRoute path="/appliedJobs/:id" component={AppliedJobs} />
+          <Route path="/Jlogin" component={JLogin} />
 
           <Route exact path="/notfound" component={notfound} />
         </Switch>
