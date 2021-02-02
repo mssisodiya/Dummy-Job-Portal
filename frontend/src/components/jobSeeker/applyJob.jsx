@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAJob } from "../../actions/jobPost";
-import { applyJob, getJobseeker } from "../../actions/jobSeeker";
+import { applyJob } from "../../actions/appliedjobs";
+import { getJobseeker } from "../../actions/jobSeeker";
 
 function ApplyJob(props) {
   const dispatch = useDispatch();
@@ -33,43 +34,24 @@ function ApplyJob(props) {
     setJob(data);
   }
 
-  // const uploadResume=(e) => {
-  //   console.log("RESUMES", e);
-
-  //   var fd = new FormData();
-  //   var filesList = document.getElementById("uploadResume").files;
-  //   if (!filesList[0].name.match(/.(pdf|doc|docx)$/i)) {
-  //     console.log("Please select an pdf/doc/docx file to upload.");
-  //     return false;
-  //   }
-  //   fd.append("uploadSelect", filesList[0]);
-  //   console.log(fd);
-
-  //   try {
-  //     let ret = await api("POST", "/document/upload", fd, {
-  //       "Content-Type": "multipart/form-data"
-  //     });
-  //     console.log(ret);
-  //     if (ret.status >= 200 && ret.status < 300) {
-  //       let data = {
-  //         resume_url: S3_URL + ret["data"]["payLoad"]
-  //       };
-  //       console.log("Resume added Successfully.");
-  //      setResume(
-  //          data.resume_url
-  //       )
-
-  //     }
-  //   } catch (error) {
-  //     console.log(Object.keys(error), error.response);
-  //     console.log(error); //Pass Full response object to the printError method.
-  //   }
-  // }
+  const handleImageChange = (e) => {
+    setJob({ ...newJob, resume: e.target.files[0] });
+  };
 
   const handleSubmit = () => {
-    console.log("jobApply", newJob);
+    const formData = new FormData();
 
-    dispatch(applyJob(newJob));
+    formData.append("name", newJob.name);
+    formData.append("email", newJob.email);
+    formData.append("phone", newJob.phone);
+    formData.append("qualification", newJob.qualification);
+    formData.append("employerId", newJob.employerId);
+    formData.append("jobseekerId", newJob.jobseekerId);
+    formData.append("jobId", newJob.jobId);
+
+    formData.append("resume", newJob.resume);
+
+    dispatch(applyJob(formData));
     props.history.push("/jhome");
   };
 
@@ -126,6 +108,16 @@ function ApplyJob(props) {
           <option value="BE/BTECH">BE/BTECH</option>
           <option value="MCA">MCA</option>
         </select>
+      </div>
+      <div className="form-group">
+        <label>Resume</label>
+        <input
+          type="file"
+          className="form-control"
+          name="resume"
+          placeholder="Select photo"
+          onChange={handleImageChange}
+        />
       </div>
 
       {/* <div className="form-row">

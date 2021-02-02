@@ -6,17 +6,22 @@ import getCurrentUser from "./auth";
 
 export default function NavBar(props) {
   const user = useSelector((state) => state.login.isAuthenticated);
+  localStorage.setItem("isLoggedIn", user);
+
+  const log = localStorage.getItem("isLoggedIn");
   const dispatch = useDispatch();
+  const [token, setToken] = useState("");
 
   function logoutuser() {
     dispatch(logout());
-    localStorage.removeItem("token");
+    localStorage.clear();
+    window.location.replace("/");
   }
 
-  // useEffect(() => {
-  //   // token = localStorage.getItem("token");
-  //   setUser(getCurrentUser());
-  // }, [getCurrentUser]);
+  useEffect(() => {
+    setToken(localStorage.getItem("user"));
+    //   setUser(getCurrentUser());
+  }, [setToken]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -33,7 +38,7 @@ export default function NavBar(props) {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
-          {!user ? (
+          {!user && !token ? (
             <ul className="nav nav-pills">
               <li className="nav-item dropdown">
                 <span
@@ -55,10 +60,25 @@ export default function NavBar(props) {
                   </NavLink>
                 </div>
               </li>
-              <li>
-                <NavLink className="nav-link" to="/login">
+              <li className="nav-item dropdown">
+                <span
+                  className="nav-link dropdown-toggle"
+                  data-toggle="dropdown"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
                   Login
-                </NavLink>
+                </span>
+
+                <div className="dropdown-menu">
+                  <NavLink className="dropdown-item" to="/Elogin">
+                    I am a Employer
+                  </NavLink>
+                  <NavLink className="dropdown-item" to="/Jlogin">
+                    I am a JobSeeker
+                  </NavLink>
+                </div>
               </li>
             </ul>
           ) : (

@@ -10,13 +10,14 @@ function ViewAppl(props) {
 
   useEffect(() => {
     dispatch(getAnApplication(id)).then((res) =>
-      setAppl(res.application, setJobPost(res.jobPost[0]))
+      setAppl(res.application[0], setJobPost(res.jobPost))
     );
   }, [dispatch, id]);
 
   return (
     <div className="mb-3">
       <div className="card text-white bg-dark mb-3">
+        {console.log("apl", appl)}
         <div className="card-header">Applicant details</div>
         <div className="card-body">
           <h4 className="card-title">Name - {appl.name}</h4>
@@ -24,6 +25,11 @@ function ViewAppl(props) {
           <h5>Phone - {appl.phone}</h5>
           <h5>Qualification - {appl.qualification}</h5>
           <h5>Post applied for - {jobPost.title}</h5>
+          <button className="button">
+            <a className="button" href={appl.resume}>
+              View Resume
+            </a>
+          </button>
         </div>
       </div>
     </div>

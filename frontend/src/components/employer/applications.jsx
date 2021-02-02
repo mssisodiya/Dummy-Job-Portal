@@ -25,7 +25,6 @@ function Applications() {
           <h4 className="fw-light">No applications recieved </h4>
         )}
       </section>
-
       <div className="album py-5 bg-light">
         <div className="container">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -53,10 +52,7 @@ function Applications() {
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="btn-group">
                         <NavLink
-                          to={{
-                            pathname: `/viewapplication/${appl._id}`,
-                            js: appl,
-                          }}
+                          to={`/viewapplication/${appl._id}`}
                           className="btn btn-sm btn-primary"
                         >
                           View

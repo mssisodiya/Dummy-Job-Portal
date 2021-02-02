@@ -38,7 +38,7 @@ function SignUpE(props) {
     formData.append("role", newCompany.role);
 
     dispatch(addEmployer(formData));
-    props.history.push("/login");
+    props.history.push("/elogin");
   };
 
   return (
@@ -119,9 +119,6 @@ function SignUpE(props) {
       >
         Sign Up
       </button>
-      <p className="forgot-password text-right">
-        Already registered <Link to="/login">Log in?</Link>
-      </p>
     </div>
   );
 }
