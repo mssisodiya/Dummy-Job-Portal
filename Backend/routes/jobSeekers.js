@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+var multer = require("multer");
 
 const { JobSeeker, validate } = require("../models/jobseeker");
 const { JobApplied } = require("../models/appliedjob");
@@ -43,18 +44,30 @@ router.get("/:id", async (req, res) => {
   res.send(jobseeker);
 });
 
-//aplplying
-router.post("/apply/:id", async (req, res) => {
-  // const job = await JobPost.find({ _id: req.params.id });
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+var upload = multer({ storage: storage });
 
+//aplplying
+router.post("/apply/:id", upload.single("resume"), async (req, res) => {
+  // const job = await JobPost.find({ _id: req.params.id });
+  const url = req.protocol + "://" + req.get("host");
+  console.log("req.....", req.body);
   jobApplication = new JobApplied({
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
     qualification: req.body.qualification,
-    jobId: req.params.id,
+    jobId: req.body.jobId,
     employerId: req.body.employerId,
     jobseekerId: req.body.jobseekerId,
+    resume: url + "/images/" + req.file.filename,
   });
   await jobApplication.save();
 

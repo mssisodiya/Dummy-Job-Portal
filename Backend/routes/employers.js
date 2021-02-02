@@ -11,7 +11,7 @@ const { JobApplied } = require("../models/appliedjob");
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./uploads");
+    cb(null, "./images");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
@@ -20,10 +20,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post("/", upload.single("logo"), async (req, res) => {
-  console.log("req", req.body);
-  console.log("req", req.file);
   const url = req.protocol + "://" + req.get("host");
-  console.log("url", url);
   // const { error } = validate(req.body);
   // if (error) return res.status(400).send(error.details.message);
 
@@ -37,7 +34,7 @@ router.post("/", upload.single("logo"), async (req, res) => {
     phone: req.body.phone,
     password: req.body.password,
     role: req.body.role,
-    logo: url + "/uploads/" + req.file.filename,
+    logo: url + "/images/" + req.file.filename,
     address: req.body.address,
   });
 
@@ -75,10 +72,8 @@ router.get("/applications/:id", async (req, res) => {
 
 //an aplication of an employer
 router.get("/single_application/:id", async (req, res) => {
-  const application = await JobApplied.findById(req.params.id).populate(
-    "employer"
-  );
-  const jobPost = await JobPost.find({ _id: application.jobId });
+  const application = await JobApplied.find({ _id: req.params.id });
+  const jobPost = await JobPost.findById(application[0].jobId);
   res.send({ application, jobPost });
 });
 
