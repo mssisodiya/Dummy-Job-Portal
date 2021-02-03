@@ -3,9 +3,7 @@ import { toast } from "react-toastify";
 import { apiUrl } from "./../config.json";
 
 export const applyJob = (job, file) => {
-  console.log("job in action", job);
   return async function (dispatch) {
-    console.log("jobId", job);
     const { data: applyJob } = await axios.post(
       `${apiUrl}jobseeker/apply/${job.jobId}`,
       job,
@@ -34,7 +32,6 @@ export const getAppliedJobs = (id) => {
 };
 
 export const withdrawJob = (id) => {
-  console.log("appplliii id", id);
   return async function (dispatch) {
     const { data: appliedJobs } = await axios.delete(
       `${apiUrl}jobseeker/${id}`

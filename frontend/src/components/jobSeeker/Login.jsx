@@ -24,7 +24,7 @@ function JLogin(props) {
         history.push("/jhome");
       })
       .catch((e) => {
-        toast.error("Email or password are invalid");
+        toast.error(e.response.data);
       });
   };
 

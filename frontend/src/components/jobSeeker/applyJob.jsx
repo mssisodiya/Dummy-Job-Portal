@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAJob } from "../../actions/jobPost";
 import { applyJob } from "../../actions/appliedjobs";
 import { getJobseeker } from "../../actions/jobSeeker";
+import { toast } from "react-toastify";
 
 function ApplyJob(props) {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
   const [employer, setEmployer] = useState([]);
+  const [err, setErr] = useState(false);
 
   const js = useSelector((state) => state.jobseeker);
 
@@ -49,10 +51,17 @@ function ApplyJob(props) {
     formData.append("jobseekerId", newJob.jobseekerId);
     formData.append("jobId", newJob.jobId);
 
-    formData.append("resume", newJob.resume);
+    if (!newJob.resume) {
+      setErr(true);
+    } else {
+      formData.append("resume", newJob.resume);
 
-    dispatch(applyJob(formData));
-    props.history.push("/jhome");
+      dispatch(applyJob(formData))
+        .then((res) => props.history.push("/jhome"))
+        .catch((e) => {
+          toast.error(e.response.data);
+        });
+    }
   };
 
   return (
@@ -115,9 +124,10 @@ function ApplyJob(props) {
           type="file"
           className="form-control"
           name="resume"
-          placeholder="Select photo"
+          placeholder="Select your latest resume in .pdf format"
           onChange={handleImageChange}
         />
+        {err ? <span style={{ color: "red" }}>Resume is Required</span> : ""}
       </div>
 
       {/* <div className="form-row">

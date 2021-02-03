@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAJob, editJob } from "../../actions/jobPost";
+import { toast } from "react-toastify";
 
 function EditJob(props) {
   const dispatch = useDispatch();
@@ -22,7 +23,11 @@ function EditJob(props) {
     setJob(data);
   }
   const handleSubmit = async () => {
-    dispatch(editJob(newJob)).then((res) => props.history.push("/ehome"));
+    dispatch(editJob(newJob))
+      .then((res) => props.history.push("/ehome"))
+      .catch((e) => {
+        toast.error(e.response.data);
+      });
   };
 
   return (

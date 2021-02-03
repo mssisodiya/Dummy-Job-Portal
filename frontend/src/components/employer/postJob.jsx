@@ -20,10 +20,13 @@ function JobPost(props) {
     setJob(data);
   }
   const handleSubmit = async () => {
-    const res = await dispatch(addJob(newJob)).catch((e) => {
-      toast.error("Failed: Fill all fields");
-    });
-    props.history.push("/ehome");
+    const res = await dispatch(addJob(newJob))
+      .then((res) => {
+        props.history.push("/ehome");
+      })
+      .catch((e) => {
+        toast.error(e.response.data);
+      });
   };
 
   return (

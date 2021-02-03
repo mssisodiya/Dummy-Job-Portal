@@ -24,7 +24,7 @@ function ELogin(props) {
         history.push("/ehome");
       })
       .catch((e) => {
-        toast.error("Email or password are invalid");
+        toast.error(e.response.data);
       });
   };
 

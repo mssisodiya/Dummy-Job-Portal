@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import getCurrentUser from "../auth";
 import { getApplications } from "../../actions/employer";
+import { toast } from "react-toastify";
 
 function Applications() {
   const dispatch = useDispatch();
@@ -10,7 +11,11 @@ function Applications() {
 
   useEffect(() => {
     const user = getCurrentUser();
-    dispatch(getApplications(user._id)).then((res) => setApplications(res));
+    dispatch(getApplications(user._id))
+      .then((res) => setApplications(res))
+      .catch((e) => {
+        toast.error(e.response.data);
+      });
   }, [dispatch]);
 
   return (

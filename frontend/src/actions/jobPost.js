@@ -66,7 +66,6 @@ export const editJob = (job) => {
 };
 
 export const deleteJob = (job) => {
-  console.log(job);
   return async function (dispatch) {
     const { data: jobpost } = await axios.delete(`${apiUrl}jobpost/${job}`);
     dispatch({

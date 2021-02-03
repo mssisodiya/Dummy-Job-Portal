@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { addJobSeeker } from "../../actions/jobSeeker";
+import { toast } from "react-toastify";
 
 function Signup(props) {
   const dispatch = useDispatch();
@@ -21,8 +21,11 @@ function Signup(props) {
   }
   const handleSubmit = () => {
     newUser.role = 2;
-    dispatch(addJobSeeker(newUser));
-    props.history.push("/Jlogin");
+    dispatch(addJobSeeker(newUser))
+      .then((res) => props.history.push("/jlogin"))
+      .catch((e) => {
+        toast.error(e.response.data);
+      });
   };
 
   return (
@@ -72,7 +75,7 @@ function Signup(props) {
           onChange={handleChange}
         >
           <option>Choose...</option>
-          <option value=">BE/BTECH">BE/BTECH</option>
+          <option value="BE/BTECH">BE/BTECH</option>
           <option value="MCA">MCA</option>
         </select>
       </div>
@@ -94,9 +97,6 @@ function Signup(props) {
       >
         Sign Up
       </button>
-      <p className="forgot-password text-right">
-        Already registered <Link to="/login">Log in?</Link>
-      </p>
     </div>
   );
 }

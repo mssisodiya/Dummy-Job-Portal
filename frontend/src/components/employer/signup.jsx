@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { addEmployer } from "../../actions/employer";
+import { toast } from "react-toastify";
 
 function SignUpE(props) {
   const dispatch = useDispatch();
@@ -37,8 +37,11 @@ function SignUpE(props) {
     formData.append("logo", newCompany.logo);
     formData.append("role", newCompany.role);
 
-    dispatch(addEmployer(formData));
-    props.history.push("/elogin");
+    dispatch(addEmployer(formData))
+      .then((res) => props.history.push("/elogin"))
+      .catch((e) => {
+        toast.error(e.response.data);
+      });
   };
 
   return (

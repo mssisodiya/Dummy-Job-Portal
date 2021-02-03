@@ -33,7 +33,6 @@ function JHome() {
       <section className="py-5 text-center container">
         <div>
           <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-            {console.log("user", user)}
             <NavLink
               className="btn btn-primary me-md-2"
               to={`/appliedJobs/${user._id}`}

@@ -73,7 +73,7 @@ export default function NavBar(props) {
 
                 <div className="dropdown-menu">
                   <NavLink className="dropdown-item" to="/Elogin">
-                    I am a Employer
+                    Employer
                   </NavLink>
                   <NavLink className="dropdown-item" to="/Jlogin">
                     I am a JobSeeker
