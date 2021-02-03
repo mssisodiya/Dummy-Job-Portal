@@ -16,7 +16,7 @@ const ApppliedJobSchema = new mongoose.Schema({
     required: true,
   },
   phone: {
-    type: String,
+    type: Number,
     required: true,
   },
 
@@ -41,19 +41,20 @@ const ApppliedJobSchema = new mongoose.Schema({
 
 const JobApplied = mongoose.model("JobApplied", ApppliedJobSchema);
 
-// function validateJobApplied(job) {
-//   const schema = {
-//     name: Joi.string().min(5).max(50).required(),
-//     email: Joi.string().required(),
-//     qualification: Joi.string().required(),
-//     jobId: Joi.string().required(),
-//     jobseekerId: Joi.string().required(),
-//     employerId: Joi.string().required(),
-//     resume: Joi.string(),
-//   };
+function validateJobApplied(job) {
+  const schema = {
+    name: Joi.string().max(50).required(),
+    email: Joi.string().required(),
+    phone: Joi.number().min(10).required(),
+    qualification: Joi.string().required(),
+    jobId: Joi.string().required(),
+    jobseekerId: Joi.string().required(),
+    employerId: Joi.string().required(),
+    resume: Joi.string(),
+  };
 
-//   return Joi.validate(job, schema);
-// }
+  return Joi.validate(job, schema);
+}
 
 exports.JobApplied = JobApplied;
-// exports.validate = validateJobApplied;
+exports.jvalidate = validateJobApplied;

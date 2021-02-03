@@ -25,6 +25,8 @@ const jobPostSchema = new mongoose.Schema({
   },
 
   employer: {
+    required: false,
+
     id: { type: String },
     company: { type: String },
     logo: { type: String },

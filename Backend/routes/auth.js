@@ -10,7 +10,7 @@ const { JobSeeker } = require("../models/jobseeker");
 
 router.post("/elogin", async (req, res) => {
   const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details.message);
+  if (error) return res.status(400).send(error.details[0].message);
   let user = await Employer.findOne({ email: req.body.email });
   if (!user) return res.status(400).send("Invalid email or password");
 
@@ -23,17 +23,25 @@ router.post("/elogin", async (req, res) => {
 });
 
 router.post("/jlogin", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details.message);
-  let user = await JobSeeker.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send("Invalid email or password");
+  try {
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    let user = await JobSeeker.findOne({ email: req.body.email });
+    if (!user) return res.status(400).send("Invalid email or password");
 
-  const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword) return res.status(400).send("Invalid email or password");
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!validPassword)
+      return res.status(400).send("Invalid email or password");
 
-  const token = user.generateAuthToken();
+    const token = user.generateAuthToken();
 
-  res.send({ token, user });
+    res.send({ token, user });
+  } catch (err) {
+    res.json({ err });
+  }
 });
 
 function validate(req) {
