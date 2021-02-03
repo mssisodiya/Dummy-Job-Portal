@@ -45,7 +45,16 @@ function EHome() {
 
         <div className="row py-lg-5">
           <div className="col-lg-6 col-md-8 mx-auto">
-            <h1 className="fw-light">Welcome {user.name}</h1>
+            <div>
+              <img
+                src={user.logo}
+                className=""
+                alt="..."
+                style={{ width: "13rem" }}
+              />
+
+              <h1 className="fw-light">Welcome {user.name}</h1>
+            </div>
           </div>
         </div>
         {jobPost ? (

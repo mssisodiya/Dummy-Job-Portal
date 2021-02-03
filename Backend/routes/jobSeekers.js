@@ -5,6 +5,9 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 var multer = require("multer");
 
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.sgMail);
+
 const { JobSeeker, validate } = require("../models/jobseeker");
 const { JobApplied } = require("../models/appliedjob");
 const { JobPost } = require("../models/jobPost");
@@ -26,9 +29,25 @@ router.post("/", async (req, res) => {
       "qualification",
     ])
   );
+  const emailData = {
+    from: "mssisodiya@bestpeers.com",
+    to: req.body.email,
+    subject: `Welcome mail `,
+    text: "Welcome to job portal you have been Registered succesfully",
+  };
+
   const salt = await bcrypt.genSalt(10);
   jobseeker.password = await bcrypt.hash(jobseeker.password, salt);
   await jobseeker.save();
+
+  sgMail
+    .send(emailData)
+    .then((sent) => {
+      console.log("SIGNUP EMAIL SENT");
+    })
+    .catch((err) => {
+      console.log("SIGNUP EMAIL SENT ERROR");
+    });
 
   const token = jobseeker.generateAuthToken();
 

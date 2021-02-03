@@ -22,7 +22,7 @@ function Signup(props) {
   const handleSubmit = () => {
     newUser.role = 2;
     dispatch(addJobSeeker(newUser));
-    props.history.push("/login");
+    props.history.push("/Jlogin");
   };
 
   return (
@@ -72,8 +72,8 @@ function Signup(props) {
           onChange={handleChange}
         >
           <option>Choose...</option>
-          <option value="1">BE/BTECH</option>
-          <option value="2">MCA</option>
+          <option value=">BE/BTECH">BE/BTECH</option>
+          <option value="MCA">MCA</option>
         </select>
       </div>
       <div className="form-group">

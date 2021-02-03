@@ -15,6 +15,18 @@ if (!config.get("jwtPrivatekey")) {
   process.exit(1);
 }
 
+app.use(express.json());
+app.use("/images", express.static("images"));
+
+// mongoose
+//   .connect("mongodb+srv://manish:1234@cluster0.q4ubo.mongodb.net/jobportal", {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useCreateIndex: true,
+//   })
+//   .then(() => console.log("Connected to mongodb"))
+//   .catch((err) => console.error("Can not connect with mongodb"));
+
 mongoose
   .connect("mongodb://localhost/jobPortal", {
     useNewUrlParser: true,
@@ -32,5 +44,18 @@ app.use("/api/jobpost", jobPost);
 app.use("/api/auth", auth);
 app.use(helmet());
 app.use(compression());
-const port = 8000;
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500).send({
+    error: {
+      status: error.status || 500,
+      message: error.message || "Internal Server Error",
+    },
+  });
+});
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Listening on ${port}`));
