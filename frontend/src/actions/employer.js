@@ -54,3 +54,18 @@ export const getAnApplication = (id) => {
     return appl;
   };
 };
+
+export const acceptApplication = (application) => {
+  console.log("applicatn", application);
+  return async function (dispatch) {
+    const { data: appl } = await axios.post(
+      `${apiUrl}acceptAppl/acceptAppl`,
+      application
+    );
+    dispatch({
+      type: "ACCEPT_AN_APPLICATION",
+      payload: appl,
+    });
+    return appl;
+  };
+};
