@@ -18,15 +18,6 @@ if (!config.get("jwtPrivatekey")) {
 app.use(express.json());
 app.use("/images", express.static("images"));
 
-// mongoose
-//   .connect("mongodb+srv://manish:1234@cluster0.q4ubo.mongodb.net/jobportal", {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useCreateIndex: true,
-//   })
-//   .then(() => console.log("Connected to mongodb"))
-//   .catch((err) => console.error("Can not connect with mongodb"));
-
 mongoose
   .connect("mongodb://localhost/jobPortal", {
     useNewUrlParser: true,
