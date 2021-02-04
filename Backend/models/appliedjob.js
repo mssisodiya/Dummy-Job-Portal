@@ -10,6 +10,7 @@ const ApppliedJobSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   qualification: {
     type: String,
@@ -44,7 +45,7 @@ const JobApplied = mongoose.model("JobApplied", ApppliedJobSchema);
 function validateJobApplied(job) {
   const schema = {
     name: Joi.string().max(50).required(),
-    email: Joi.string().required(),
+    email: Joi.string().required().email(),
     phone: Joi.number().min(10).required(),
     qualification: Joi.string().required(),
     jobId: Joi.string().required(),

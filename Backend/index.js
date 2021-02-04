@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const employer = require("./routes/employers");
 const jobSeeker = require("./routes/jobSeekers");
 const jobPost = require("./routes/jobPost");
+const acceptAppl = require("./routes/accepted");
 const auth = require("./routes/auth");
 const config = require("config");
 const cors = require("cors");
@@ -17,6 +18,15 @@ if (!config.get("jwtPrivatekey")) {
 
 app.use(express.json());
 app.use("/images", express.static("images"));
+
+// mongoose
+//   .connect(process.env.jobPortal_MongoURI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useCreateIndex: true,
+//   })
+//   .then(() => console.log("Connected to mongodb"))
+//   .catch((err) => console.error("Can not connect with mongodb"));
 
 mongoose
   .connect("mongodb://localhost/jobPortal", {
@@ -33,6 +43,8 @@ app.use("/api/jobseeker", jobSeeker);
 app.use("/api/employer", employer);
 app.use("/api/jobpost", jobPost);
 app.use("/api/auth", auth);
+app.use("/api/acceptAppl", acceptAppl);
+
 app.use(helmet());
 app.use(compression());
 

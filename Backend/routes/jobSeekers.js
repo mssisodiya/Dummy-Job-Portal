@@ -89,7 +89,6 @@ router.post("/apply/:id", upload.single("resume"), async (req, res) => {
     if (error) return res.status(400).send(error.details[0].message);
 
     const url = req.protocol + "://" + req.get("host");
-    console.log("req.....", req.body);
     jobApplication = new JobApplied({
       name: req.body.name,
       email: req.body.email,
