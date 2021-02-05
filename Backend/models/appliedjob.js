@@ -22,13 +22,13 @@ const ApppliedJobSchema = new mongoose.Schema({
   },
 
   jobId: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "JobPost",
   },
 
   employerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Employer",
+    ref: "Emloyer",
   },
 
   jobseekerId: {
@@ -36,6 +36,9 @@ const ApppliedJobSchema = new mongoose.Schema({
     ref: "JobSeeker",
   },
   resume: {
+    type: String,
+  },
+  status: {
     type: String,
   },
 });
@@ -52,6 +55,7 @@ function validateJobApplied(job) {
     jobseekerId: Joi.string().required(),
     employerId: Joi.string().required(),
     resume: Joi.string(),
+    status: Joi.string(),
   };
 
   return Joi.validate(job, schema);
