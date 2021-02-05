@@ -21,6 +21,7 @@ function Applications() {
   return (
     <div>
       <section className="py-5 text-center container">
+        {console.log("apploications", applications)}
         <div className="row py-lg-5">
           <div className="col-lg-6 col-md-8 mx-auto"></div>
         </div>
@@ -35,7 +36,12 @@ function Applications() {
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {applications.map((appl) => (
               <div className="col" key={appl._id}>
-                <div className="card shadow-sm">
+                <div
+                  className="card shadow-sm"
+                  style={{
+                    borderColor: appl.status === "Rejected" ? "red" : "green",
+                  }}
+                >
                   <svg
                     className="bd-placeholder-img card-img-top"
                     width="100%"
@@ -63,8 +69,15 @@ function Applications() {
                           View
                         </NavLink>
                       </div>
-                      <p>{appl.name}</p>
+                      <ul>
+                        <li>Name - {appl.name}</li>
+                        <li>Post Applied For - {appl.jobId.title}</li>
+                        <li>Qualification - {appl.qualification}</li>
+                      </ul>
                     </div>
+                    <p>
+                      <small>{appl.status}</small>
+                    </p>
                   </div>
                 </div>
               </div>

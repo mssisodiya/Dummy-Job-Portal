@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { getAnApplication, acceptApplication } from "../../actions/employer";
+import { getAnApplication, changestatus } from "../../actions/employer";
 
 function ViewAppl(props) {
   const [appl, setAppl] = useState([]);
@@ -16,19 +16,15 @@ function ViewAppl(props) {
     );
   }, [dispatch, id]);
 
-  const acceptAppl = () => {
+  const changeAppSts = (choice) => {
+    console.log(choice);
     dispatch(
-      acceptApplication({
-        applicantId: appl._id,
-        name: appl.name,
-        post: jobPost.title,
-        email: appl.email,
-        phone: appl.phone,
-        qualification: appl.qualification,
-        jobseekerId: appl.jobseekerId,
+      changestatus({
         jobId: appl.jobId,
-        resume: appl.resume,
-        employerId: appl.employerId,
+        company: jobPost.employer.company,
+        post: jobPost.title,
+
+        status: choice,
       })
     )
       .then((res) => toast.success("Mail sent to applicant"))
@@ -58,10 +54,18 @@ function ViewAppl(props) {
         </div>
       </div>
       <div className="text-center">
-        <button className="btn btn-md btn-primary" onClick={acceptAppl}>
+        <button
+          className="btn btn-md btn-primary"
+          onClick={() => changeAppSts("Accepted")}
+        >
           Accept
         </button>
-        <button className="btn btn-md btn-danger">Reject</button>
+        <button
+          className="btn btn-md btn-danger"
+          onClick={() => changeAppSts("Rejected")}
+        >
+          Reject
+        </button>
       </div>
     </div>
   );
