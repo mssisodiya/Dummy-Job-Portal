@@ -55,14 +55,14 @@ export const getAnApplication = (id) => {
   };
 };
 
-export const acceptApplication = (application) => {
+export const changestatus = (application) => {
   return async function (dispatch) {
-    const { data: appl } = await axios.post(
-      `${apiUrl}acceptAppl/acceptAppl`,
+    const { data: appl } = await axios.put(
+      `${apiUrl}employer/changestatus/${application.jobId}`,
       application
     );
     dispatch({
-      type: "ACCEPT_AN_APPLICATION",
+      type: "CHANGE_STATUS",
       payload: appl,
     });
     return appl;
