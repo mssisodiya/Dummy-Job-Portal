@@ -31,23 +31,18 @@ function AppliedJobs(props) {
             {applications.length > 0
               ? applications.map((appl) => (
                   <div className="col" key={appl._id}>
-                    <div className="card shadow-sm">
-                      <svg
-                        className="bd-placeholder-img card-img-top"
-                        width="100%"
-                        height="225"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-label="Placeholder: Thumbnail"
-                        preserveAspectRatio="xMidYMid slice"
-                        focusable="false"
-                      >
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" />
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                          Profile
-                        </text>
-                      </svg>
+                    <div
+                      className="card shadow-sm"
+                      style={{
+                        borderColor:
+                          appl.status === "Rejected" ? "red" : "green",
+                      }}
+                    >
+                      <img
+                        src={appl.jobId.employer.logo}
+                        className="card-img-top"
+                        alt="..."
+                      />
 
                       <div className="card-body">
                         <div className="d-flex justify-content-between align-items-center">
@@ -59,8 +54,16 @@ function AppliedJobs(props) {
                               withdraw
                             </button>
                           </div>
-                          <p>{appl.name}</p>
+                          <ul>
+                            <li>Name - {appl.name}</li>
+                            <li>Company - {appl.jobId.employer.company}</li>
+                            <li>{appl.name}</li>
+                          </ul>
+                          {console.log("appl", appl)}
                         </div>
+                        <p>
+                          <small>{appl.status}</small>
+                        </p>
                       </div>
                     </div>
                   </div>
