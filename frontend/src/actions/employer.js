@@ -56,7 +56,6 @@ export const getAnApplication = (id) => {
 };
 
 export const acceptApplication = (application) => {
-  console.log("applicatn", application);
   return async function (dispatch) {
     const { data: appl } = await axios.post(
       `${apiUrl}acceptAppl/acceptAppl`,

@@ -17,10 +17,24 @@ function ViewAppl(props) {
   }, [dispatch, id]);
 
   const acceptAppl = () => {
-    console.log("aaya");
-    dispatch(acceptApplication({ appl, jobPost })).catch((e) => {
-      console.log(e);
-    });
+    dispatch(
+      acceptApplication({
+        applicantId: appl._id,
+        name: appl.name,
+        post: jobPost.title,
+        email: appl.email,
+        phone: appl.phone,
+        qualification: appl.qualification,
+        jobseekerId: appl.jobseekerId,
+        jobId: appl.jobId,
+        resume: appl.resume,
+        employerId: appl.employerId,
+      })
+    )
+      .then((res) => toast.success("Mail sent to applicant"))
+      .catch((e) => {
+        toast.error(e.response.data);
+      });
   };
 
   return (
@@ -28,7 +42,7 @@ function ViewAppl(props) {
       <div className="card text-white bg-dark mb-3 ml-4 mt-4 mr-3">
         <div className="card-header">Applicant details</div>
         <div className="card-body">
-          <ul class="list-group list-group bg-dark">
+          <ul className="list-group list-group bg-dark">
             <li className="card-title">Name - {appl.name}</li>
             <li>Email - {appl.email}</li>
             <li>Phone - {appl.phone}</li>
@@ -43,7 +57,7 @@ function ViewAppl(props) {
           </button>
         </div>
       </div>
-      <div class="text-center">
+      <div className="text-center">
         <button className="btn btn-md btn-primary" onClick={acceptAppl}>
           Accept
         </button>
