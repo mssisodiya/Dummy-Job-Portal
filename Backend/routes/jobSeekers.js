@@ -88,6 +88,10 @@ router.post("/apply/:id", upload.single("resume"), async (req, res) => {
     const { error } = jvalidate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
+    let checkUser = await JobApplied.findOne({ JobId: req.body.JobId });
+    if (checkUser)
+      return res.status(400).send("You have already Applied for this Job");
+
     const url = req.protocol + "://" + req.get("host");
     jobApplication = new JobApplied({
       name: req.body.name,
@@ -98,6 +102,7 @@ router.post("/apply/:id", upload.single("resume"), async (req, res) => {
       employerId: req.body.employerId,
       jobseekerId: req.body.jobseekerId,
       resume: url + "/images/" + req.file.filename,
+      status: req.body.status,
     });
     await jobApplication.save();
 
@@ -109,8 +114,10 @@ router.post("/apply/:id", upload.single("resume"), async (req, res) => {
 
 router.get("/getApliedjobs/:id", async (req, res) => {
   try {
-    const appliedJobs = await JobApplied.find({ jobseekerId: req.params.id });
-    // const jobpost = await JobPost.findById(jobseeker.jobId);
+    const appliedJobs = await JobApplied.find({
+      jobseekerId: req.params.id,
+    }).populate({ path: "jobId" });
+
     res.send(appliedJobs);
   } catch (err) {
     res.json({ error: err.message });

@@ -105,7 +105,7 @@ router.get("/applications/:id", async (req, res) => {
   try {
     const applications = await JobApplied.find({
       employerId: req.params.id,
-    }).populate("employer");
+    }).populate({ path: "jobId" });
     res.send(applications);
   } catch (err) {
     res.json({ error: err.message });
@@ -118,6 +118,46 @@ router.get("/single_application/:id", async (req, res) => {
     const application = await JobApplied.find({ _id: req.params.id });
     const jobPost = await JobPost.findById(application[0].jobId);
     res.send({ application, jobPost });
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+});
+
+//  Accept/Reject an application
+router.put("/changestatus/:id", async (req, res) => {
+  try {
+    let checkUser = await JobApplied.findOne({
+      jobId: req.body.jobId,
+      status: req.body.status,
+    });
+    if (checkUser) {
+      return res.status(400).send(`Already ${req.body.status} this Appliction`);
+    }
+    const fil = { jobId: req.params.id };
+    const upd = { status: req.body.status };
+    const acceptedJob = await JobApplied.findOneAndUpdate(fil, upd, {
+      new: true,
+    });
+    const emailData = {
+      from: "mssisodiya@bestpeers.com",
+      to: acceptedJob.email,
+      subject: `Acknowledgement`,
+
+      text:
+        req.body.status === "Accepted"
+          ? `Congratulations ${acceptedJob.name}, Your resume has been shortListed for the post ${req.body.post} at ${req.body.company} company`
+          : `Hi ${acceptedJob.name}, This mail is to inform you that you are Rejected for post ${req.body.post} at ${req.body.company} company`,
+    };
+    sgMail
+      .send(emailData)
+      .then((sent) => {
+        console.log("sent");
+      })
+      .catch((err) => {
+        console.log("not sent");
+      });
+
+    res.send(acceptedJob);
   } catch (err) {
     res.json({ error: err.message });
   }
