@@ -50,6 +50,7 @@ function ApplyJob(props) {
     formData.append("employerId", newJob.employerId);
     formData.append("jobseekerId", newJob.jobseekerId);
     formData.append("jobId", newJob.jobId);
+    formData.append("status", "Pending");
 
     if (!newJob.resume) {
       setErr(true);
