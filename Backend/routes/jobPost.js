@@ -38,7 +38,7 @@ router.post("/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const jobPost = await JobPost.find();
+    const jobPost = await JobPost.find().sort({ _id: -1 });
     res.send(jobPost);
   } catch (err) {
     res.json({ error: err.message });
