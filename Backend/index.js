@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const employer = require("./routes/employers");
 const jobSeeker = require("./routes/jobSeekers");
 const jobPost = require("./routes/jobPost");
-const acceptAppl = require("./routes/accepted");
 const auth = require("./routes/auth");
 const config = require("config");
 const cors = require("cors");
@@ -43,7 +42,6 @@ app.use("/api/jobseeker", jobSeeker);
 app.use("/api/employer", employer);
 app.use("/api/jobpost", jobPost);
 app.use("/api/auth", auth);
-app.use("/api/acceptAppl", acceptAppl);
 
 app.use(helmet());
 app.use(compression());

@@ -28,7 +28,9 @@ router.post("/", upload.single("logo"), async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    let checkUser = await Employer.findOne({ email: req.body.email });
+    let checkUser = await Employer.findOne({
+      email: req.body.email,
+    });
     if (checkUser)
       return res.status(400).send("User already registered with this email");
 
