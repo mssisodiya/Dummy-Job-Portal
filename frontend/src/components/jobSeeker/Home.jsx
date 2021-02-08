@@ -78,7 +78,7 @@ function JHome() {
                         </li>
                       </ul>
                       <div className="d-flex justify-content-between align-items-center">
-                        <div className="btn-group" employer={job.employer}>
+                        <div className="btn-group">
                           <Link
                             to={`apply/${job._id}`}
                             className="btn btn-sm btn-primary"

@@ -25,7 +25,9 @@ function ApplyJob(props) {
 
   useEffect(() => {
     // dispatch(getJobseeker(user._id)).then((res) => setTemp(res[0]));
-    dispatch(getAJob(newJob.jobId)).then((res) => setEmployer(res.employer));
+    dispatch(getAJob(props.match.params.id)).then((res) =>
+      setEmployer(res.employer)
+    );
     dispatch(getJobseeker(user._id));
   }, [dispatch]);
 
