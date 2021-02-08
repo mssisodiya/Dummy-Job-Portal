@@ -57,7 +57,7 @@ function AppliedJobs(props) {
                           <ul>
                             <li>Name - {appl.name}</li>
                             <li>Company - {appl.jobId.employer.company}</li>
-                            <li>{appl.name}</li>
+                            <li>Position - {appl.jobId.title}</li>
                           </ul>
                           {console.log("appl", appl)}
                         </div>

@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addJob } from "../../actions/jobPost";
+import getCurrentUser from "../auth";
 
 function JobPost(props) {
   const dispatch = useDispatch();
+  const user = getCurrentUser();
   const [newJob, setJob] = useState({
     title: "",
     jobtype: "",
     qualification: "",
     location: "",
     salary: "",
-    id: props.match.params.id,
+    id: user._id,
   });
 
   function handleChange({ currentTarget: input }) {

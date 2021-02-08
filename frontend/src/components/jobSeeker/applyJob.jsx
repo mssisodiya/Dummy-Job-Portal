@@ -11,24 +11,17 @@ function ApplyJob(props) {
   const [employer, setEmployer] = useState([]);
   const [err, setErr] = useState(false);
 
-  const js = useSelector((state) => state.jobseeker);
+  // const js = useSelector((state) => state.jobseeker);
+  const [js, setJs] = useState([]);
 
-  const [newJob, setJob] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    qualification: "",
-    jobId: props.match.params.id,
-    jobseekerId: user._id,
-    employerId: "",
-  });
+  const [newJob, setJob] = useState({});
 
   useEffect(() => {
     // dispatch(getJobseeker(user._id)).then((res) => setTemp(res[0]));
     dispatch(getAJob(props.match.params.id)).then((res) =>
       setEmployer(res.employer)
     );
-    dispatch(getJobseeker(user._id));
+    dispatch(getJobseeker(user._id)).then((res) => setJob(res[0]));
   }, [dispatch]);
 
   function handleChange({ currentTarget: input }) {
@@ -49,9 +42,9 @@ function ApplyJob(props) {
     formData.append("email", newJob.email);
     formData.append("phone", newJob.phone);
     formData.append("qualification", newJob.qualification);
-    formData.append("employerId", newJob.employerId);
-    formData.append("jobseekerId", newJob.jobseekerId);
-    formData.append("jobId", newJob.jobId);
+    formData.append("employerId", employer.id);
+    formData.append("jobseekerId", newJob._id);
+    formData.append("jobId", props.match.params.id);
     formData.append("status", "Pending");
 
     if (!newJob.resume) {
@@ -69,6 +62,7 @@ function ApplyJob(props) {
 
   return (
     <div id="registerform">
+      {console.log(newJob)}
       <h3>Apply for job</h3>
       <div className="form-group">
         <label>Full Name</label>
@@ -77,7 +71,7 @@ function ApplyJob(props) {
           className="form-control"
           placeholder="Enter full Name"
           name="name"
-          value={newJob.name}
+          defaultValue={newJob.name}
           onChange={handleChange}
         />
       </div>
@@ -89,7 +83,7 @@ function ApplyJob(props) {
           className="form-control"
           placeholder="Enter your email"
           name="email"
-          value={newJob.email}
+          defaultValue={newJob.email}
           onChange={handleChange}
         />
       </div>
@@ -101,7 +95,7 @@ function ApplyJob(props) {
           className="form-control"
           id="phone"
           name="phone"
-          value={newJob.phone}
+          defaultValue={newJob.phone}
           placeholder="Enter phone"
           onChange={handleChange}
         />
@@ -114,7 +108,7 @@ function ApplyJob(props) {
           id="qualification"
           name="qualification"
           onChange={handleChange}
-          value={newJob.qualification}
+          defaultValue={newJob.qualification}
         >
           <option>Choose...</option>
           <option value="BE/BTECH">BE/BTECH</option>
