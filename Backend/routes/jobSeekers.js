@@ -85,6 +85,7 @@ var upload = multer({ storage: storage });
 router.post("/apply/:id", upload.single("resume"), async (req, res) => {
   // const job = await JobPost.find({ _id: req.params.id });
   try {
+    console.log("req....", req.body);
     const { error } = jvalidate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
