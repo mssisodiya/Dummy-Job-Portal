@@ -1,30 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logout } from "../actions/login";
-import getCurrentUser from "./auth";
+import { connect } from "react-redux";
 
-export default function NavBar(props) {
-  const user = useSelector((state) => state.login.isAuthenticated);
-  localStorage.setItem("isLoggedIn", user);
-
-  const log = localStorage.getItem("isLoggedIn");
+const NavBar = () => {
+  const checker = useSelector((state) => state.login.data);
   const dispatch = useDispatch();
-  const [token, setToken] = useState("");
 
-  function logoutuser() {
-    dispatch(logout());
+  const logoutuser = async () => {
     localStorage.clear();
-    window.location.replace("/");
-  }
-
-  useEffect(() => {
-    setToken(localStorage.getItem("user"));
-    //   setUser(getCurrentUser());
-  }, [setToken]);
+    {
+      !localStorage.user && window.location.replace("/");
+    }
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      {console.log("checker", checker)}
       <button
         className="navbar-toggler"
         type="button"
@@ -38,7 +31,7 @@ export default function NavBar(props) {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
-          {!user && !token ? (
+          {!checker && (
             <ul className="nav nav-pills">
               <li className="nav-item dropdown">
                 <span
@@ -81,17 +74,49 @@ export default function NavBar(props) {
                 </div>
               </li>
             </ul>
-          ) : (
-            <NavLink
-              to="/login"
-              onClick={() => logoutuser()}
-              className="nav-link"
-            >
-              Logout
-            </NavLink>
+          )}
+
+          {checker && checker.user.role == "1" && (
+            <React.Fragment>
+              <NavLink className="navbar-brand" to="/ehome">
+                Home
+              </NavLink>
+              <NavLink className="nav-link" to={`/new/jobpost`}>
+                NewJob
+              </NavLink>
+              <NavLink className="nav-link" to="/applications">
+                Applications
+              </NavLink>
+              <NavLink className="nav-link" onClick={logoutuser} to="/">
+                Logout
+              </NavLink>
+            </React.Fragment>
+          )}
+
+          {checker && checker.user.role == "2" && (
+            <React.Fragment>
+              <NavLink className="navbar-brand" to="/jhome">
+                Home
+              </NavLink>
+              <NavLink
+                className="nav-link"
+                to={`/appliedJobs/${checker.user._id}`}
+              >
+                Myjobs
+              </NavLink>
+              <NavLink className="nav-link" onClick={logoutuser} to="/">
+                Logout
+              </NavLink>
+            </React.Fragment>
           )}
         </div>
       </div>
     </nav>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  users: state.login,
+});
+
+export default connect(mapStateToProps)(NavBar);
