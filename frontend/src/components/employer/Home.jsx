@@ -25,25 +25,8 @@ function EHome() {
   };
   return (
     <div>
-      <section className="py-1 text-center container">
-        <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-          <NavLink
-            className="btn btn-primary me-md-2"
-            to={`/new/jobpost/${user._id}`}
-          >
-            Post a Job
-          </NavLink>
-        </div>
-        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-          <NavLink
-            className="btn btn-primary me-md-2"
-            to={`/applications/${user._id}`}
-          >
-            Applications Recieved
-          </NavLink>
-        </div>
-
-        <div className="row py-lg-5">
+      <section className="py-5 text-center container">
+        <div className="row py-lg-1">
           <div className="col-lg-6 col-md-8 mx-auto">
             <div>
               <img
@@ -69,7 +52,7 @@ function EHome() {
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {jobPost
               ? jobPost.map((job) => (
-                  <div className="col py-1" key={job._id}>
+                  <div className="col" key={job._id}>
                     <div className="card" style={{ width: "18rem" }}>
                       <img src={user.logo} className="card-img-top" alt="..." />
 

@@ -24,7 +24,7 @@ function ELogin(props) {
         history.push("/ehome");
       })
       .catch((e) => {
-        toast.error(e.response.data);
+        console.log(e);
       });
   };
 
