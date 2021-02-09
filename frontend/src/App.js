@@ -19,23 +19,31 @@ import { ToastContainer } from "react-toastify";
 import Applications from "./components/employer/applications";
 import ViewAppl from "./components/employer/viewApplication";
 import AppliedJobs from "./components/jobSeeker/appliedjobs";
+import getCurrentUser from "./components/auth";
+import { useSelector } from "react-redux";
 
-function App() {
+const App = () => {
+  const checker = useSelector((state) => state.login.data);
+  const user = getCurrentUser();
   return (
     <div className="App">
       <ToastContainer />
       <NavBar />
       <main className="container">
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/home" component={Home} />
+          {!user ? (
+            <Route exact path="/" component={Home} />
+          ) : (
+            <Route exact path="/" component={notfound} />
+          )}
+
           <Route exact path="/register/jobseeker" component={Signup} />
           <Route path="/register/employer" component={SignUpE} />
 
-          <EmpRoute path="/new/jobpost/:id" component={JobPost} />
+          <EmpRoute path="/new/jobpost" component={JobPost} />
           <EmpRoute path="/editjob/:id" component={EditJob} />
           <EmpRoute path="/ehome" component={EHome} />
-          <EmpRoute path="/applications/:id" component={Applications} />
+          <EmpRoute path="/applications" component={Applications} />
           <EmpRoute path="/viewapplication/:id" component={ViewAppl} />
           <Route path="/Elogin" component={ELogin} />
 
@@ -49,6 +57,6 @@ function App() {
       </main>
     </div>
   );
-}
+};
 
 export default App;
