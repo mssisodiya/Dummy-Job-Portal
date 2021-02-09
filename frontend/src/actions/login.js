@@ -2,9 +2,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { apiUrl } from "./../config.json";
 
-export const elogin = (data) => {
+export const elogin = (cred) => {
   return async (dispatch) => {
-    const { data: user } = await axios.post(`${apiUrl}auth/elogin`, data);
+    const { data: user } = await axios.post(`${apiUrl}auth/elogin`, cred);
     dispatch({
       type: "ELOGIN",
       payload: user,
@@ -14,9 +14,9 @@ export const elogin = (data) => {
   };
 };
 
-export const jlogin = (data) => {
+export const jlogin = (cred) => {
   return async (dispatch) => {
-    const { data: user } = await axios.post(`${apiUrl}auth/jlogin`, data);
+    const { data: user } = await axios.post(`${apiUrl}auth/jlogin`, cred);
     dispatch({
       type: "JLOGIN",
       payload: user,
