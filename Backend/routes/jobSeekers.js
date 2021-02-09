@@ -121,7 +121,7 @@ router.get("/getApliedjobs/:id", async (req, res) => {
   try {
     const appliedJobs = await JobApplied.find({
       jobseekerId: req.params.id,
-    }).populate({ path: "jobId" });
+    }).populate("jobId");
 
     res.send(appliedJobs);
   } catch (err) {
