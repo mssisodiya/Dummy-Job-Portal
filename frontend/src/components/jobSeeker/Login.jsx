@@ -24,7 +24,7 @@ function JLogin(props) {
         history.push("/jhome");
       })
       .catch((e) => {
-        toast.error(e.response.data);
+        console.log(e);
       });
   };
 

@@ -32,14 +32,6 @@ function JHome() {
     <div>
       <section className="py-5 text-center container">
         <div>
-          <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-            <NavLink
-              className="btn btn-primary me-md-2"
-              to={`/appliedJobs/${user._id}`}
-            >
-              Applied By you
-            </NavLink>
-          </div>
           <div className="col-lg-6 col-md-8 mx-auto">
             <h1 className="fw-light">Welcome {user.name}</h1>
           </div>
