@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAppliedJobs } from "../../actions/appliedjobs";
 import { withdrawJob } from "../../actions/appliedjobs";
+import getCurrentUser from "../auth";
 
 function AppliedJobs(props) {
   const dispatch = useDispatch();
+  const user = getCurrentUser;
   // const [applications, setApplications] = useState([]);
   const applications = useSelector((state) => state.jobapplied);
 
@@ -16,13 +18,14 @@ function AppliedJobs(props) {
     <div>
       <section className="py-5 text-center container">
         <div className="row py-lg-5">
-          <div className="col-lg-6 col-md-8 mx-auto"></div>
+          <div className="col-lg-6 col-md-8 mx-auto">
+            {applications ? (
+              <h4 className="fw-light">Jobs Applied By You</h4>
+            ) : (
+              <h4 className="fw-light">No applications </h4>
+            )}
+          </div>
         </div>
-        {applications ? (
-          <h4 className="fw-light">Jobs Applied By You</h4>
-        ) : (
-          <h4 className="fw-light">No applications </h4>
-        )}
       </section>
 
       <div className="album py-5 bg-light">
@@ -59,7 +62,6 @@ function AppliedJobs(props) {
                             <li>Company - {appl.jobId.employer.company}</li>
                             <li>Position - {appl.jobId.title}</li>
                           </ul>
-                          {console.log("appl", appl)}
                         </div>
                         <p>
                           <small>{appl.status}</small>
