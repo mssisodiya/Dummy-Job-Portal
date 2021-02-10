@@ -4,7 +4,6 @@ import jwtDecode from "jwt-decode";
 import { getJobseeker } from "../../actions/jobSeeker";
 import { getAllJob } from "../../actions/jobPost";
 import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
 
 function JHome() {
   const dispatch = useDispatch();
@@ -24,6 +23,10 @@ function JHome() {
     dispatch(getAllJob()).then((res) => setJob(res));
   }, [dispatch]);
 
+  const partTime = () => {
+    const pt = jobPost.filter((job) => job.jobtype === "Part Time");
+    console.log("pt", pt);
+  };
   // const handleDelete = (id) => {
   //   dispatch(deleteJob(id)).then((res) => console.log("res", res));
   //   dispatch(getEmployer(user._id)).then((res) => setJob(res.jobs));
@@ -47,14 +50,14 @@ function JHome() {
                   <div className="col" key={job._id}>
                     <div className="card" style={{ width: "18rem" }}>
                       <img
+                        style={{ height: "15rem" }}
                         src={job.employer.logo}
                         className="card-img-top"
                         alt="..."
                       />
                     </div>
-
-                    <div className="card-body">
-                      <p className="card-text">{job.title}</p>
+                    <div className="card-body" style={{ borderColor: "black" }}>
+                      <p className="card-text">Post - {job.title}</p>
                       <ul className="list-group list-group-flush">
                         <li className="list-group-item">
                           company - {job.employer.company}

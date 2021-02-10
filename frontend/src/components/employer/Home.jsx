@@ -54,10 +54,21 @@ function EHome() {
               ? jobPost.map((job) => (
                   <div className="col" key={job._id}>
                     <div className="card" style={{ width: "18rem" }}>
-                      <img src={user.logo} className="card-img-top" alt="..." />
+                      <div
+                        className="card-body"
+                        style={{ borderColor: "black" }}
+                      >
+                        <img
+                          src={user.logo}
+                          className="card-img-top"
+                          alt="..."
+                          style={{ height: "15rem" }}
+                        />
 
-                      <div className="card-body">
-                        <p className="card-text">{job.title}</p>
+                        <p className="card-text">
+                          <b>Post - </b>
+                          {job.title}
+                        </p>
                         <div className="d-flex justify-content-between align-items-center">
                           <div className="btn-group">
                             <NavLink

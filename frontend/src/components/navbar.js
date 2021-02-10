@@ -17,7 +17,6 @@ const NavBar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      {console.log("checker", checker)}
       <button
         className="navbar-toggler"
         type="button"
@@ -102,7 +101,7 @@ const NavBar = () => {
                 className="nav-link"
                 to={`/appliedJobs/${checker.user._id}`}
               >
-                Myjobs
+                MyJobs
               </NavLink>
               <NavLink className="nav-link" onClick={logoutuser} to="/">
                 Logout

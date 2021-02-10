@@ -24,7 +24,7 @@ function ELogin(props) {
         history.push("/ehome");
       })
       .catch((e) => {
-        console.log(e);
+        toast.error(e.response.data);
       });
   };
 
@@ -57,6 +57,7 @@ function ELogin(props) {
           name="password"
           value={user.password}
           onChange={handleChange}
+          minLength="8"
         />
       </div>
 

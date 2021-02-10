@@ -45,7 +45,7 @@ function ApplyJob(props) {
     formData.append("employerId", employer.id);
     formData.append("jobseekerId", newJob._id);
     formData.append("jobId", props.match.params.id);
-    formData.append("status", "Pending");
+    formData.append("status", "");
 
     if (!newJob.resume) {
       setErr(true);
@@ -62,7 +62,6 @@ function ApplyJob(props) {
 
   return (
     <div id="registerform">
-      {console.log(newJob)}
       <h3>Apply for job</h3>
       <div className="form-group">
         <label>Full Name</label>
@@ -103,12 +102,13 @@ function ApplyJob(props) {
 
       <div className="form-group">
         <label>Qualification</label>
+        {console.log("quali", newJob.qualification)}
         <select
           className="custom-select my-1 mr-sm-2"
           id="qualification"
           name="qualification"
           onChange={handleChange}
-          defaultValue={newJob.qualification}
+          value={newJob.qualification}
         >
           <option>Choose...</option>
           <option value="BE/BTECH">BE/BTECH</option>

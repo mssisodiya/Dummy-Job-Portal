@@ -5,6 +5,16 @@ const router = express.Router();
 const { JobPost, validate } = require("../models/jobPost");
 const { Employer } = require("../models/employer");
 
+router.get("/fulltimejobs", async (req, res) => {
+  try {
+    const fulltimeJobs = await JobPost.find({ jobtype: "Full Time" });
+
+    res.send(fulltimeJobs);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.post("/:id", async (req, res) => {
   try {
     const { error } = validate(req.body);

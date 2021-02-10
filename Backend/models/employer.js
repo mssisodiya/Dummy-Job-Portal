@@ -1,6 +1,7 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const { min } = require("lodash");
 
 const employerSchema = new mongoose.Schema({
   name: {
@@ -26,7 +27,7 @@ const employerSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 8,
     maxlength: 1024,
   },
   role: {
@@ -45,8 +46,8 @@ function validateEmployer(employer) {
     name: Joi.string().required(),
     address: Joi.string().required(),
     email: Joi.string().required().email(),
-    phone: Joi.string().required(),
-    password: Joi.string().min(5).max(255).required(),
+    phone: Joi.string().min(10).required(),
+    password: Joi.string().min(8).max(255).required(),
     role: Joi.number(),
     logo: Joi.string(),
   };

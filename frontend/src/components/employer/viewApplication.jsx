@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getAnApplication, changestatus } from "../../actions/employer";
 
 function ViewAppl(props) {
   const [appl, setAppl] = useState([]);
   const [jobPost, setJobPost] = useState([]);
+  const [isc, setIsc] = useState("");
 
   const dispatch = useDispatch();
   const id = props.match.params.id;
@@ -17,7 +18,7 @@ function ViewAppl(props) {
   }, [dispatch, id]);
 
   const changeAppSts = (choice) => {
-    console.log(choice);
+    // setStts(choice);
     dispatch(
       changestatus({
         jobId: appl.jobId,
@@ -27,7 +28,10 @@ function ViewAppl(props) {
         status: choice,
       })
     )
-      .then((res) => toast.success("Mail sent to applicant"))
+      .then(
+        (res) => toast.success("Mail sent to applicant"),
+        props.history.push("/applications")
+      )
       .catch((e) => {
         toast.error(e.response.data);
       });
@@ -35,6 +39,8 @@ function ViewAppl(props) {
 
   return (
     <div className="mb-3">
+      {console.log("appl", appl)}
+      {console.log("jobpost", jobPost)}
       <div className="card text-white bg-dark mb-3 ml-4 mt-4 mr-3">
         <div className="card-header">Applicant details</div>
         <div className="card-body">
@@ -54,18 +60,43 @@ function ViewAppl(props) {
         </div>
       </div>
       <div className="text-center">
-        <button
-          className="btn btn-md btn-primary"
-          onClick={() => changeAppSts("Accepted")}
-        >
-          Accept
-        </button>
-        <button
-          className="btn btn-md btn-danger"
-          onClick={() => changeAppSts("Rejected")}
-        >
-          Reject
-        </button>
+        {appl.status === "Pending" && (
+          <div>
+            <p>Status is pending</p>
+
+            <button
+              className="btn btn-md btn-success"
+              onClick={() => changeAppSts("Rejected")}
+            >
+              Reject
+            </button>
+
+            <button
+              className="btn btn-md btn-danger"
+              onClick={() => changeAppSts("Accepted")}
+            >
+              Accept
+            </button>
+          </div>
+        )}
+
+        {appl.status === "Accepted" && (
+          <button
+            className="btn btn-md btn-danger"
+            onClick={() => changeAppSts("Rejected")}
+          >
+            Reject
+          </button>
+        )}
+
+        {appl.status === "Rejected" && (
+          <button
+            className="btn btn-md btn-success"
+            onClick={() => changeAppSts("Accepted")}
+          >
+            Accept
+          </button>
+        )}
       </div>
     </div>
   );

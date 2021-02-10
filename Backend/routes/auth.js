@@ -47,7 +47,7 @@ router.post("/jlogin", async (req, res) => {
 function validate(req) {
   const schema = {
     email: Joi.string().required().email(),
-    password: Joi.string().required(),
+    password: Joi.string().min(8).required(),
   };
   return Joi.validate(req, schema);
 }

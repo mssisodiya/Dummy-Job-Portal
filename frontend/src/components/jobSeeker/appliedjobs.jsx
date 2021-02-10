@@ -49,14 +49,18 @@ function AppliedJobs(props) {
 
                       <div className="card-body">
                         <div className="d-flex justify-content-between align-items-center">
-                          <div className="btn-group">
-                            <button
-                              onClick={() => dispatch(withdrawJob(appl._id))}
-                              className="btn btn-sm btn-danger"
-                            >
-                              withdraw
-                            </button>
-                          </div>
+                          {appl.status === "Accepted" ? (
+                            ""
+                          ) : (
+                            <div className="btn-group">
+                              <button
+                                onClick={() => dispatch(withdrawJob(appl._id))}
+                                className="btn btn-sm btn-danger"
+                              >
+                                withdraw
+                              </button>
+                            </div>
+                          )}
                           <ul>
                             <li>Name - {appl.name}</li>
                             <li>Company - {appl.jobId.employer.company}</li>
@@ -64,7 +68,10 @@ function AppliedJobs(props) {
                           </ul>
                         </div>
                         <p>
-                          <small>{appl.status}</small>
+                          <small>Status -</small>{" "}
+                          <span className="badge badge-pill badge-info">
+                            {appl.status}
+                          </span>
                         </p>
                       </div>
                     </div>

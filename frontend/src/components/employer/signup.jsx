@@ -80,6 +80,7 @@ function SignUpE(props) {
           value={newCompany.phone}
           placeholder="Enter phone"
           onChange={handleChange}
+          maxLength="10"
         />
       </div>
       <div className="form-group">

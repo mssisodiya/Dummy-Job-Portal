@@ -21,7 +21,6 @@ function Applications() {
   return (
     <div>
       <section className="py-5 text-center container">
-        {console.log("apploications", applications)}
         <div className="row py-lg-5">
           <div className="col-lg-6 col-md-8 mx-auto"></div>
         </div>
@@ -70,9 +69,18 @@ function Applications() {
                         </NavLink>
                       </div>
                       <ul>
-                        <li>Name - {appl.name}</li>
-                        <li>Post Applied For - {appl.jobId.title}</li>
-                        <li>Qualification - {appl.qualification}</li>
+                        <li>
+                          <b>Name - </b>
+                          {appl.name}
+                        </li>
+                        <li>
+                          <b>Post Applied For - </b>
+                          {appl.jobId.title}
+                        </li>
+                        <li>
+                          <b>Qualification - </b>
+                          {appl.qualification}
+                        </li>
                       </ul>
                     </div>
                     <p>

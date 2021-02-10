@@ -4,7 +4,7 @@ const Home = () => {
   localStorage.clear();
   return (
     <div className="bg-img">
-      <h1 className="text-center">Welcome to Job Portal</h1>
+      <h1 className="font-weight-bold text-center">Welcome to Job Portal</h1>
       <h4 className="text-center">Trending Jobs</h4>
       <SearchPage />
       {/*<center>
