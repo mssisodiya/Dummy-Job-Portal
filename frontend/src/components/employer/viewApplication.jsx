@@ -6,7 +6,6 @@ import { getAnApplication, changestatus } from "../../actions/employer";
 function ViewAppl(props) {
   const [appl, setAppl] = useState([]);
   const [jobPost, setJobPost] = useState([]);
-  const [isc, setIsc] = useState("");
 
   const dispatch = useDispatch();
   const id = props.match.params.id;
@@ -28,10 +27,10 @@ function ViewAppl(props) {
         status: choice,
       })
     )
-      .then(
-        (res) => toast.success("Mail sent to applicant"),
-        props.history.push("/applications")
-      )
+      .then((res) => {
+        toast.success("Mail sent to applicant");
+        props.history.push("/applications");
+      })
       .catch((e) => {
         toast.error(e.response.data);
       });
@@ -46,10 +45,18 @@ function ViewAppl(props) {
         <div className="card-body">
           <ul className="list-group list-group bg-dark">
             <li className="card-title">Name - {appl.name}</li>
-            <li>Email - {appl.email}</li>
-            <li>Phone - {appl.phone}</li>
-            <li>Qualification - {appl.qualification}</li>
-            <li>Post applied for - {jobPost.title}</li>
+            <li>
+              <b>Email -</b> {appl.email}
+            </li>
+            <li>
+              <b>Phone -</b> {appl.phone}
+            </li>
+            <li>
+              <b>Qualification -</b> {appl.qualification}
+            </li>
+            <li>
+              <b>Post applied for -</b> {jobPost.title}
+            </li>
           </ul>
 
           <button className="button">
@@ -65,14 +72,14 @@ function ViewAppl(props) {
             <p>Status is pending</p>
 
             <button
-              className="btn btn-md btn-success"
+              className="btn btn-md btn-danger"
               onClick={() => changeAppSts("Rejected")}
             >
               Reject
             </button>
 
             <button
-              className="btn btn-md btn-danger"
+              className="btn btn-md btn-success"
               onClick={() => changeAppSts("Accepted")}
             >
               Accept

@@ -7,16 +7,17 @@ import getCurrentUser from "../auth";
 
 function EHome() {
   const dispatch = useDispatch();
-  const [user, setUser] = useState({
-    employer: [],
-  });
+  // const [user, setUser] = useState({
+  //   employer: [],
+  // });
 
   const jobPost = useSelector((state) => state.jobpost);
+  const user = useSelector((state) => state.login);
 
   useEffect(() => {
     const user = getCurrentUser();
     localStorage.setItem("user", JSON.stringify(user));
-    dispatch(getEmployer(user._id)).then((res) => setUser(res.employer[0]));
+    // dispatch(getEmployer(user._id)).then((res) => setUser(res.employer[0]));
     dispatch(getJob(user._id));
   }, [dispatch]);
 
@@ -68,6 +69,14 @@ function EHome() {
                         <p className="card-text">
                           <b>Post - </b>
                           {job.title}
+                        </p>
+                        <p className="card-text">
+                          <b>Location - </b>
+                          {job.location}
+                        </p>
+                        <p className="card-text">
+                          <b>Type - </b>
+                          {job.jobtype}
                         </p>
                         <div className="d-flex justify-content-between align-items-center">
                           <div className="btn-group">

@@ -1,27 +1,57 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import getCurrentUser from "../auth";
 import { getApplications } from "../../actions/employer";
 import { toast } from "react-toastify";
+import { Modal, Button } from "react-bootstrap";
+import { getAnApplication, changestatus } from "../../actions/employer";
 
-function Applications() {
+function Applications(props) {
   const dispatch = useDispatch();
-  const [applications, setApplications] = useState([]);
+  const applications = useSelector((state) => state.employer);
+  const [temp, setTemp] = useState([]);
+  const [show, setShow] = useState(false);
+  const [applicant, setAppl] = useState("");
 
-  useEffect(() => {
-    const user = getCurrentUser();
-    dispatch(getApplications(user._id))
-      .then((res) => setApplications(res))
+  const handleClose = () => setShow(false);
+
+  const handleShow = (i) => {
+    console.log("indexdata", applications);
+    const d = [...applications];
+    setAppl(d[i]);
+    setShow(true);
+    console.log("setAppl", applicant);
+  };
+
+  const changeAppSts = (choice) => {
+    console.log("choice", choice);
+    dispatch(
+      changestatus({
+        jobId: choice.appl.jobId._id,
+        company: choice.appl.jobId.employer.company,
+        post: choice.appl.jobId.title,
+        status: choice.choice,
+      })
+    )
+      .then((res) => {
+        setTemp(choice.choice);
+        toast.success("Mail sent to applicant");
+      })
       .catch((e) => {
         toast.error(e.response.data);
       });
-  }, [dispatch]);
+  };
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    dispatch(getApplications(user._id));
+  }, [applications]);
 
   return (
     <div>
       <section className="py-5 text-center container">
-        <div className="row py-lg-5">
+        <div className="row py-lg-1">
           <div className="col-lg-6 col-md-8 mx-auto"></div>
         </div>
         {applications ? (
@@ -30,10 +60,10 @@ function Applications() {
           <h4 className="fw-light">No applications recieved </h4>
         )}
       </section>
-      <div className="album py-5 bg-light">
+      <div className="album py-1 bg-light">
         <div className="container">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {applications.map((appl) => (
+            {applications.map((appl, index) => (
               <div className="col" key={appl._id}>
                 <div
                   className="card shadow-sm"
@@ -61,12 +91,12 @@ function Applications() {
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="btn-group">
-                        <NavLink
-                          to={`/viewapplication/${appl._id}`}
-                          className="btn btn-sm btn-primary"
+                        <Button
+                          variant="primary"
+                          onClick={() => handleShow(index)}
                         >
-                          View
-                        </NavLink>
+                          view
+                        </Button>
                       </div>
                       <ul>
                         <li>
@@ -87,6 +117,102 @@ function Applications() {
                       <small>{appl.status}</small>
                     </p>
                   </div>
+                  <Modal show={show} onHide={handleClose} size="md">
+                    <Modal.Header closeButton>
+                      <Modal.Title>Applicant Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      {applicant && (
+                        <ul>
+                          <li>
+                            <b>Name -</b> {applicant.name}
+                          </li>
+                          <li>
+                            <b>Email -</b> {applicant.email}
+                          </li>
+                          <li>
+                            <b>Phone -</b> {applicant.phone}
+                          </li>
+                          <li>
+                            <b>Qualification -</b> {applicant.qualification}
+                          </li>
+                          <li>
+                            <b>Post applied for -</b> {applicant.jobId.title}
+                          </li>
+
+                          <a
+                            className="btn btn-primary btn-sm"
+                            href={appl.resume}
+                          >
+                            View Resume
+                          </a>
+                        </ul>
+                      )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <div className="text-center">
+                        {applicant.status === "Pending" && (
+                          <div>
+                            {console.log("applicant", applicant)}
+
+                            <p>Status is pending</p>
+
+                            <button
+                              className="btn btn-md btn-danger"
+                              onClick={() =>
+                                changeAppSts({
+                                  choice: "Rejected",
+                                  appl: applicant,
+                                })
+                              }
+                            >
+                              Reject
+                            </button>
+
+                            <button
+                              className="btn btn-md btn-success"
+                              onClick={() =>
+                                changeAppSts({
+                                  choice: "Accepted",
+                                  appl: applicant,
+                                })
+                              }
+                            >
+                              Accept
+                            </button>
+                          </div>
+                        )}
+
+                        {applicant.status === "Accepted" && (
+                          <button
+                            className="btn btn-md btn-danger"
+                            onClick={() =>
+                              changeAppSts({
+                                choice: "Rejected",
+                                appl: applicant,
+                              })
+                            }
+                          >
+                            Reject
+                          </button>
+                        )}
+
+                        {applicant.status === "Rejected" && (
+                          <button
+                            className="btn btn-md btn-success"
+                            onClick={() =>
+                              changeAppSts({
+                                choice: "Accepted",
+                                appl: applicant,
+                              })
+                            }
+                          >
+                            Accept
+                          </button>
+                        )}
+                      </div>
+                    </Modal.Footer>
+                  </Modal>
                 </div>
               </div>
             ))}
