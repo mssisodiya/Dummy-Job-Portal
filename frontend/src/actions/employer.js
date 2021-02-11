@@ -65,6 +65,5 @@ export const changestatus = (application) => {
       type: "CHANGE_STATUS",
       payload: appl,
     });
-    return appl;
   };
 };

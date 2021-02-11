@@ -9,8 +9,9 @@ export const employerReducer = (state = [], action) => {
     case "GET_AN_APPLICATION":
       return action.payload;
     case "CHANGE_STATUS":
-      return action.payload;
-
+      return state.map((job) =>
+        job._id === action.payload._id ? { ...job } : job
+      );
     default:
       return state;
   }
