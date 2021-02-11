@@ -45,7 +45,7 @@ function ApplyJob(props) {
     formData.append("employerId", employer.id);
     formData.append("jobseekerId", newJob._id);
     formData.append("jobId", props.match.params.id);
-    formData.append("status", "");
+    formData.append("status", "Pending");
 
     if (!newJob.resume) {
       setErr(true);
